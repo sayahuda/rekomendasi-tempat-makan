@@ -3,53 +3,29 @@
 	$peringatan='';
 	require_once('../../fungsi/fungsi.php');
 	konek_db();
-  $id = $_GET['id'];
 
-  echo $peringatan;
 	if(isset($_POST['simpan'])){
-		$id         = $_GET['id'];
-		$kd_rmakan  = $_POST['kd_rmakan'];
-    $nama       = $_POST['nama'];
-    $alamat     = $_POST['alamat'];
-    $email      = $_POST['email'];
-    $tlp        = $_POST['tlp'];
-    $luas       = $_POST['luas'];
-    $lokasi     = $_POST['lokasi'];
+		//murah
+		$murah_bawah = $_POST['0'];
+		$murah_atas = $_POST['1'];
 
-    	$query = mysql_query("UPDATE MD_RMAKAN SET KD_RMAKAN='".$kd_rmakan."', NM_RMAKAN='".$nama."', ALAMAT='".$alamat."',
-														EMAIL='".$email."', NO_TLP='".$tlp."', LUAS='".$luas."', LOKASI='".$lokasi."'
-      											WHERE KD_RMAKAN=$id;");
+		//sedang
+		$sedang_bawah = $_POST['2'];
+		$sedang_tengah = $_POST['3'];
+		$sedang_atas = $_POST['4'];
 
-			$fst = mysql_query("SELECT * FROM FASILITAS;");
-			//
-			while ($data=mysql_fetch_array($fst)) {
-				$fasilitas = "x".$data['KD_FASILITAS'];
-				if(isset($_POST[$fasilitas])){
-					//do nothing
-				}else{
-					$q_hapus = mysql_query("DELETE FROM CEK_FASILITAS WHERE KD_RMAKAN='".$id."' AND KD_FASILITAS='".$data['KD_FASILITAS']."';");
-				}
-			}
+		//mahal
+		$mahal_bawah = $_POST['5'];
+		$mahal_atas = $_POST['6'];
 
-			//
-			$fst = mysql_query("SELECT * FROM FASILITAS;");
-			while ($data=mysql_fetch_array($fst)) {
-				$fasilitas = "y".$data['KD_FASILITAS'];
-        
-				if(isset($_POST[$fasilitas])){
-					$q_input = mysql_query("INSERT INTO CEK_FASILITAS (`KODE`, `KD_RMAKAN`, `KD_FASILITAS`) 
-                                                       VALUES ('','".$id."','".$data['KD_FASILITAS']."');");
-				}
-			}
+		$sedikit = mysql_query("UPDATE V_LUAS SET BATAS_BAWAH='".$murah_bawah."', BATAS_ATAS='".$murah_atas."' WHERE status='Sempit';");
+		$sedang = mysql_query("UPDATE V_LUAS SET BATAS_BAWAH='".$sedang_bawah."', BATAS_ATAS='".$sedang_atas."', BATAS_TENGAH='".$sedang_tengah."' WHERE status='Sedang';");
+		$banyak = mysql_query("UPDATE V_LUAS SET BATAS_BAWAH='".$mahal_bawah."', BATAS_ATAS='".$mahal_atas."' WHERE status='Luas';");
 
-		if($query){
-			echo "<script>alert('data berhasil disimpan !');</script>";
-        	echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
-		}else{
-			echo "<script>alert('data gagal disimpan !');</script>";
-        	echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
-		}
 	}
+
+
+
  ?>
 
 
@@ -231,10 +207,10 @@
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-						<li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-						<li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-						<li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
+						<li><a href="harga.php"><i class="fa fa-archive active" ></i> Harga</a></li>
+						<li><a href="HARGA.php"><i class="fa fa-archive"></i> HARGA</a></li>
+						<li><a href="luas.php"><i class="fa fa-archive"></i> Luas</a></li>
+						<li><a href="fasilitas.php"><i class="fa fa-archive"></i> Jumlah Fasilitas</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -246,133 +222,95 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        UPDATE TEMPAT MAKAN
+        Variabel Luas
         <small>rekomendasi tempat makan</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="index.php"><i class="fa fa-dashboard" class="active"></i> Home</a></li>
-        <li><a href="list_tempat.php">Data Tempat Makan</a></li>
-        <li class="active">Update</li>
+        <li><a href="../index.php"><i class="fa fa-dashboard" class="active"></i> Home</a></li>
+        <li><a href="jarak.php">Variabel Luas</a></li>
+        <li class="active">Luas</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
+
       <div class="row">
-        <div class="col-xs-12">
+				<div class="col-md-12">
 					<div class="panel panel-default">
 					<div class="panel-body">
-						<form method="post" action="#" enctype="multipart/form-data">
-  						<div class="col-md-6">
-								<?php
-					    $query = mysql_query("SELECT MD_RMAKAN.KD_USER AS KD_USER, MD_USER.KD_USER AS USER, MD_USER.NAMA AS NAMA FROM MD_RMAKAN JOIN MD_USER ON MD_RMAKAN.KD_USER=MD_USER.KD_USER WHERE KD_RMAKAN=$id;");
-
-					    $data = mysql_fetch_array($query)
-
-					    ?>
-  							<div class="form-group">
-                  <label>Pemilik</label>
-                  <input type="text" name="kd_user" maxlength="20"class="form-control" value=<?php echo $data['NAMA']; ?>>
-                </div>
+						<form method="post" action="#">
+						<div class="row">
 							<?php
-					    $query = mysql_query("SELECT * FROM MD_RMAKAN WHERE KD_RMAKAN=$id;");
+								$query = mysql_query("SELECT * FROM V_LUAS;");
+								$i=0;
+								while ($data = mysql_fetch_array($query)) {
 
-					    $data = mysql_fetch_array($query)
-
-					    ?>
-  							<div class="form-group">
-                  <label>Kode Rumah Makan </label>
-                  <input type="text" name="kd_rmakan" class="form-control" value=<?php echo $data['KD_RMAKAN']; ?>>
-                </div>
-                <div class="form-group">
-                  <label>Nama Rumah Makan </label>
-                  <input type="text" name="nama" class="form-control" value="<?php echo $data['NM_RMAKAN']; ?>">
-                </div>
-                <div class="form-group">
-                  <label>Alamat </label>
-                  <input type="text" name="alamat" class="form-control" value="<?php echo $data['ALAMAT']; ?>">
-                </div>
-                <div class="form-group">
-                  <label>Email </label>
-                  <input type="email" name="email" class="form-control" value="<?php echo $data['EMAIL']; ?>">
-                </div>
-  						</div>
-
-  						<div class="col-md-6">
-  							<div class="form-group">
-  								<label>Telephon </label>
-  								<input type="number" name="tlp" class="form-control" value="<?php echo $data['NO_TLP']; ?>">
-  							</div>
-  							<div class="form-group">
-                  <label>Luas </label>
-                  <input type="number" name="luas" class="form-control" value="<?php echo $data['LUAS']; ?>">
-                </div>
-  							<div class="form-group">
-                  <label>Lokasi </label>
-                  <input type="text" name="lokasi" class="form-control" value="<?php echo $data['LOKASI']; ?>">
-                </div>
-                <div class="form-group">
-									<label>Fasilitas</label>
-									<br>
-									<?php
-									$query = mysql_query("SELECT * FROM FASILITAS;");
-									$i=0;
-									while ($data = mysql_fetch_array($query)) {
-										$fasilitas[$i][0] = $data['KD_FASILITAS'];
-										$fasilitas[$i][1] = $data['NAMA'];
-										$i++;
-									}
-									echo $data['KD_FASILITAS'];
-									$query_cek = mysql_query("SELECT * FROM CEK_FASILITAS WHERE KD_RMAKAN='".$id."';");
-									$i=0;
-									while ($data = mysql_fetch_array($query_cek)) {
-										$fasilitas_cek[$i][0] = $data['KD_FASILITAS'];
-										$i++;
-									}
-
-
-									for ($i=0; $i < count($fasilitas) ; $i++) {
-										$cek = 0;
-										if (isset($fasilitas_cek)) {
-											for ($j=0; $j < count($fasilitas_cek) ; $j++) {
-												if ($fasilitas[$i][0] == $fasilitas_cek[$j][0]){
-													$cek++;
-												}
-											}
-										}
-
-										if ($cek!=0) {
-											$fasilitas[$i][2] = "x".$fasilitas[$i][0];
-										}else{
-											$fasilitas[$i][2] = "y".$fasilitas[$i][0];
-										}
-									}
-
-									for ($i=0; $i < count($fasilitas); $i++) {
-										if (substr($fasilitas[$i][2],0,1)== 'x') {
-											?>
-											<input type="checkbox" checked style="margin-left:5px" name="<?php echo $fasilitas[$i][2];?>"> <?php echo $fasilitas[$i][1]; ?>
-											<br>
-										<?php
-									}else {
+							 ?>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label align="center"><?php echo $data['STATUS']; ?> :</label>
+									<hr>
+									<p>Batas Bawah  :</p>
+									<input type="number" class="form-control" name=<?php echo $i; ?> value=<?php echo $data['BATAS_BAWAH']; ?>>
+									<?php $i++; ?>
+									<hr>
+									<?php if($data['BATAS_TENGAH']!=null){
 										?>
-										<input type="checkbox" style="margin-left:5px" name="<?php echo $fasilitas[$i][2];?>"> <?php echo $fasilitas[$i][1]; ?>
+
+									<p>Batas Tengah  :</p>
+									<input type="number" class="form-control" name=<?php echo $i; ?> value=<?php echo $data['BATAS_TENGAH']; ?>>
+									<?php $i++; ?>
+									<hr>
 
 										<?php
-									}
-									}
-									 ?>
+										} ?>
+									<p>Batas Atas  :</p>
+									<input type="number" class="form-control" name= <?php echo $i; ?> value=<?php echo $data['BATAS_ATAS']; ?>>
+									<?php $i++; ?>
 
-  							</div>
+								</div>
+							</div>
+							<?php } ?>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-danger" style="width: 100%;" name="simpan" >Simpan</button>
+						</div>
+						</form>
+					</div>
+				</div>
 
-              <div class="col-md-12">
-                <div class="form-group">
-                  <button class="btn btn-danger" style="width: 100%;" name="simpan" >Simpan</button>
-                </div>
-              </div>
-            </form>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row" style="padding: 20px;">
+							 <table class="table table-bordered">
+								 <tr>
+								 	<th>Status</th>
+								 	<th>Batas Bawah</th>
+								 	<th>Batas Tengah</th>
+								 	<th>Batas Atas</th>
+								 </tr>
+								<?php
+								$sql = mysql_query("SELECT * FROM V_LUAS;");
+								while ($isi = mysql_fetch_array($sql)) {
+									?>
+									<tr>
+										<td><?php echo $isi['STATUS']; ?></td>
+										<td><?php echo m2($isi['BATAS_BAWAH']); ?></td>
+										<td><?php echo m2($isi['BATAS_TENGAH']); ?></td>
+										<td><?php echo m2($isi['BATAS_ATAS']); ?></td>
+									</tr>
+									<?php
+								}
+
+							 ?>
+
+							 </table>
+
+						</div>
 					</div>
-					</div>
+				</div>
+
 				</div>
 
       </div>
@@ -410,6 +348,14 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- page script -->
+<script>
+    $(function(){
+        $('*[data-href]').click(function(){
+            window.location = $(this).data('href');
+            return false;
+        });
+      });
+    </script>
 <script>
   $(function () {
     $("#example1").DataTable();

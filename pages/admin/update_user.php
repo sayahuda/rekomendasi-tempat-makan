@@ -5,49 +5,24 @@
 	konek_db();
   $id = $_GET['id'];
 
-  echo $peringatan;
 	if(isset($_POST['simpan'])){
-		$id         = $_GET['id'];
-		$kd_rmakan  = $_POST['kd_rmakan'];
-    $nama       = $_POST['nama'];
-    $alamat     = $_POST['alamat'];
-    $email      = $_POST['email'];
-    $tlp        = $_POST['tlp'];
-    $luas       = $_POST['luas'];
-    $lokasi     = $_POST['lokasi'];
-
-    	$query = mysql_query("UPDATE MD_RMAKAN SET KD_RMAKAN='".$kd_rmakan."', NM_RMAKAN='".$nama."', ALAMAT='".$alamat."',
-														EMAIL='".$email."', NO_TLP='".$tlp."', LUAS='".$luas."', LOKASI='".$lokasi."'
-      											WHERE KD_RMAKAN=$id;");
-
-			$fst = mysql_query("SELECT * FROM FASILITAS;");
-			//
-			while ($data=mysql_fetch_array($fst)) {
-				$fasilitas = "x".$data['KD_FASILITAS'];
-				if(isset($_POST[$fasilitas])){
-					//do nothing
-				}else{
-					$q_hapus = mysql_query("DELETE FROM CEK_FASILITAS WHERE KD_RMAKAN='".$id."' AND KD_FASILITAS='".$data['KD_FASILITAS']."';");
-				}
-			}
-
-			//
-			$fst = mysql_query("SELECT * FROM FASILITAS;");
-			while ($data=mysql_fetch_array($fst)) {
-				$fasilitas = "y".$data['KD_FASILITAS'];
-        
-				if(isset($_POST[$fasilitas])){
-					$q_input = mysql_query("INSERT INTO CEK_FASILITAS (`KODE`, `KD_RMAKAN`, `KD_FASILITAS`) 
-                                                       VALUES ('','".$id."','".$data['KD_FASILITAS']."');");
-				}
-			}
-
+		$kd_user = $_POST['kd_user'];
+		$nama = $_POST['nama'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$alamat = $_POST['alamat'];
+		$tlp = $_POST['tlp'];
+		$email = $_POST['email'];
+		$level = $_POST['level'];
+		$query = mysql_query("UPDATE MD_USER SET KD_USER='".$kd_user."',NAMA='".$nama."',`USERNAME`='".$username."',
+			`PASSWORD`='".$password."',`ALAMAT`='".$alamat."',`NO_HP`='".$tlp."',`EMAIL`='".$email."',`LEVEL`='".$level."'
+			WHERE KD_USER='".$id."';");
 		if($query){
 			echo "<script>alert('data berhasil disimpan !');</script>";
-        	echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
+        	echo "<meta http-equiv='refresh' content='0; url=list_user.php'>";
 		}else{
 			echo "<script>alert('data gagal disimpan !');</script>";
-        	echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
+        	echo "<meta http-equiv='refresh' content='0; url=list_user.php'>";
 		}
 	}
  ?>
@@ -246,132 +221,89 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        UPDATE TEMPAT MAKAN
+        UPDATE user
         <small>rekomendasi tempat makan</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="index.php"><i class="fa fa-dashboard" class="active"></i> Home</a></li>
-        <li><a href="list_tempat.php">Data Tempat Makan</a></li>
+        <li><a href="list_user.php">Data User</a></li>
         <li class="active">Update</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
+			<?php
+    $query = mysql_query("SELECT * FROM MD_USER WHERE KD_USER='".$id."';");
+
+    $data = mysql_fetch_array($query)
+
+    ?>
       <div class="row">
-        <div class="col-xs-12">
+				<div class="col-xs-12">
 					<div class="panel panel-default">
 					<div class="panel-body">
 						<form method="post" action="#" enctype="multipart/form-data">
-  						<div class="col-md-6">
-								<?php
-					    $query = mysql_query("SELECT MD_RMAKAN.KD_USER AS KD_USER, MD_USER.KD_USER AS USER, MD_USER.NAMA AS NAMA FROM MD_RMAKAN JOIN MD_USER ON MD_RMAKAN.KD_USER=MD_USER.KD_USER WHERE KD_RMAKAN=$id;");
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Kode </label>
+								<input type="text" name="kd_user" class="form-control" value="<?php echo $data['KD_USER']; ?>">
+							</div>
+							<div class="form-group">
+								<label>Nama </label>
+								<input type="text" name="nama" class="form-control" value="<?php echo $data['NAMA']; ?>">
+							</div>
+							<div class="form-group">
+								<label>Username </label>
+								<input type="text" name="username" class="form-control" value="<?php echo $data['USERNAME']; ?>">
+							</div>
+							<div class="form-group">
+								<label>Password </label>
+								<input type="password" name="password" class="form-control" value="<?php echo $data['PASSWORD']; ?>">
+							</div>
+							<div class="form-group">
+								<label>Alamat </label>
+								<input type="text" name="alamat" class="form-control" value="<?php echo $data['ALAMAT']; ?>">
+							</div>
 
-					    $data = mysql_fetch_array($query)
+						</div>
 
-					    ?>
-  							<div class="form-group">
-                  <label>Pemilik</label>
-                  <input type="text" name="kd_user" maxlength="20"class="form-control" value=<?php echo $data['NAMA']; ?>>
-                </div>
-							<?php
-					    $query = mysql_query("SELECT * FROM MD_RMAKAN WHERE KD_RMAKAN=$id;");
+						<div class="col-md-6">
 
-					    $data = mysql_fetch_array($query)
-
-					    ?>
-  							<div class="form-group">
-                  <label>Kode Rumah Makan </label>
-                  <input type="text" name="kd_rmakan" class="form-control" value=<?php echo $data['KD_RMAKAN']; ?>>
-                </div>
-                <div class="form-group">
-                  <label>Nama Rumah Makan </label>
-                  <input type="text" name="nama" class="form-control" value="<?php echo $data['NM_RMAKAN']; ?>">
-                </div>
-                <div class="form-group">
-                  <label>Alamat </label>
-                  <input type="text" name="alamat" class="form-control" value="<?php echo $data['ALAMAT']; ?>">
-                </div>
-                <div class="form-group">
-                  <label>Email </label>
-                  <input type="email" name="email" class="form-control" value="<?php echo $data['EMAIL']; ?>">
-                </div>
-  						</div>
-
-  						<div class="col-md-6">
-  							<div class="form-group">
-  								<label>Telephon </label>
-  								<input type="number" name="tlp" class="form-control" value="<?php echo $data['NO_TLP']; ?>">
-  							</div>
-  							<div class="form-group">
-                  <label>Luas </label>
-                  <input type="number" name="luas" class="form-control" value="<?php echo $data['LUAS']; ?>">
-                </div>
-  							<div class="form-group">
-                  <label>Lokasi </label>
-                  <input type="text" name="lokasi" class="form-control" value="<?php echo $data['LOKASI']; ?>">
-                </div>
-                <div class="form-group">
-									<label>Fasilitas</label>
-									<br>
+							<div class="form-group">
+								<label>Telephone </label>
+								<input type="text" name="tlp" class="form-control" value="<?php echo $data['NO_HP']; ?>">
+							</div>
+							<div class="form-group">
+								<label>Email </label>
+								<input type="email" name="email" class="form-control" value="<?php echo $data['EMAIL']; ?>">
+							</div>
+							<div class="form-group">
+								<label>Level </label>
+								<select class="form-control" name="level" >
+									<option value="-">Pilih Salah Satu</option>
 									<?php
-									$query = mysql_query("SELECT * FROM FASILITAS;");
-									$i=0;
-									while ($data = mysql_fetch_array($query)) {
-										$fasilitas[$i][0] = $data['KD_FASILITAS'];
-										$fasilitas[$i][1] = $data['NAMA'];
-										$i++;
-									}
-									echo $data['KD_FASILITAS'];
-									$query_cek = mysql_query("SELECT * FROM CEK_FASILITAS WHERE KD_RMAKAN='".$id."';");
-									$i=0;
-									while ($data = mysql_fetch_array($query_cek)) {
-										$fasilitas_cek[$i][0] = $data['KD_FASILITAS'];
-										$i++;
-									}
-
-
-									for ($i=0; $i < count($fasilitas) ; $i++) {
-										$cek = 0;
-										if (isset($fasilitas_cek)) {
-											for ($j=0; $j < count($fasilitas_cek) ; $j++) {
-												if ($fasilitas[$i][0] == $fasilitas_cek[$j][0]){
-													$cek++;
-												}
-											}
-										}
-
-										if ($cek!=0) {
-											$fasilitas[$i][2] = "x".$fasilitas[$i][0];
-										}else{
-											$fasilitas[$i][2] = "y".$fasilitas[$i][0];
-										}
-									}
-
-									for ($i=0; $i < count($fasilitas); $i++) {
-										if (substr($fasilitas[$i][2],0,1)== 'x') {
-											?>
-											<input type="checkbox" checked style="margin-left:5px" name="<?php echo $fasilitas[$i][2];?>"> <?php echo $fasilitas[$i][1]; ?>
-											<br>
-										<?php
-									}else {
+									$query = mysql_query("SELECT LEVEL FROM MD_USER GROUP BY LEVEL;");
+									while($data = mysql_fetch_array($query)){
 										?>
-										<input type="checkbox" style="margin-left:5px" name="<?php echo $fasilitas[$i][2];?>"> <?php echo $fasilitas[$i][1]; ?>
+										<option value="<?php echo $data['LEVEL']; ?>"> <?php if ($data['LEVEL']==1){
+											echo "ADMIN";
+										}
+										if ($data['LEVEL']==2) {
+											echo "PEMILIK RUMAH MAKAN";
+										}?>
+									</option>
+									<?php } ?>
 
-										<?php
-									}
-									}
-									 ?>
+								</select>
+							</div>
 
-  							</div>
+						</div>
 
-              <div class="col-md-12">
-                <div class="form-group">
-                  <button class="btn btn-danger" style="width: 100%;" name="simpan" >Simpan</button>
-                </div>
-              </div>
-            </form>
-					</div>
+						<div class="form-group">
+							<button class="btn btn-danger" style="width: 100%;" name="simpan" >Simpan</button>
+						</div>
+						</form>
 					</div>
 				</div>
 

@@ -3,79 +3,35 @@
 	$peringatan='';
 	require_once('../../fungsi/fungsi.php');
 	konek_db();
-	// if(isset($_POST['upload'])){
-	// 	$target_dir = "../asset/gambar/";
-	//       $target_file = $target_dir . basename($_FILES["gambar"]["name"]);
-	//       $uploadOk = 1;
-	//       $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-
-
-	//       // $check = getimagesize($_FILES["gambar"]["tmp_name"]);
-	//       // if($check !== false) {
-	//       //         $uploadOk = 1;
-	//       //     } else {
-	//       //         $peringatan="maaf yang anda pilih bukan gambar :-(";
-	//       //         $uploadOk = 0;
-	//       //     }
-
-
-	//       if ($_FILES["gambar"]["size"] > 2000000) {
-	//           $peringatan='ukuran gambar terlalu besar pilih gambar dengan ukuran kurang 2 MB';
-	//           $uploadOk = 0;
-	//       }
-
- //        if (file_exists($target_file)) {
- //            echo "FIle Sudah Ada!!!";
- //            $uploadOk = 0;
- //        }
-
-	//       if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-	//       && $imageFileType != "gif" ) {
-	//           $peringatan='pilih gambar dengan format JPG, PNG, JPEG atau GIF';
-	//           $uploadOk = 0;
-	//       }
-
-	//       if ($uploadOk == 0) {
-
-	//       } else {
-	//           if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
-	//               $nama_file=$_FILES['gambar']['name'];
-	//           } else {
-	//               echo "<script>alert('gambar tidak terupload ke server'); </script>";
-	//               echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
-
-	//           }
-	//       }
-	// }
-  echo $peringatan;
 	if(isset($_POST['simpan'])){
-		$kd_rmakan  = $_POST['kd_rmakan'];
+    $kd_user    = $_POST['kd_user'];
+    $kd_jenis   = $_POST['kd_jenis'];
     $nama       = $_POST['nama'];
     $alamat     = $_POST['alamat'];
-    $email      = $_POST['email'];
     $tlp        = $_POST['tlp'];
+    $lokasi     = $_POST['lokasi'];
     $luas       = $_POST['luas'];
-  //   $parkirr    = $_POST['parkirr'];
-  //   $parkirl    = $_POST['parkirl'];
-  //   $lesehan    = $_POST['lesehan'];
-  //   $wifi       = $_POST['wifi'];
-  //   $mushola    = $_POST['mushola'];
-  //   $toilet     = $_POST['toilet'];
-  //   $gazebo     = $_POST['gazebo'];
-  //   $halal      = $_POST['halal'];
-  //   $ac         = $_POST['ac'];
-  //   $r_rapat    = $_POST['r_rapat'];
-  //   $sound      = $_POST['sound'];
-		// $lokasi     = $_POST['lokasi'];
+		$email      = $_POST['email'];
+    $query = mysql_query("INSERT INTO `md_rmakan`(`KD_RMAKAN`, `KD_USER`, `KD_JENIS`, `NM_RMAKAN`, `ALAMAT`, `NO_TLP`, `LUAS`, `LOKASI`, `EMAIL`)
+																				VALUES  ('', '".$kd_user."', '".$kd_jenis."', '".$nama."', '".$alamat."', '".$tlp."', '".$luas."', '".$lokasi."', '".$email."') ;");
+		$kd= mysql_query("SELECT KD_RMAKAN FROM MD_RMAKAN ORDER BY KD_RMAKAN DESC LIMIT 1;");
+		$kode = mysql_fetch_array($kd);
+		$kd_rmakan = $kode['KD_RMAKAN'];
+echo $kode['KD_RMAKAN'];
+    $sql = mysql_query("SELECT * FROM FASILITAS;");
+    while ($data = mysql_fetch_array($sql)) {
+echo mysql_error($sql);
+			if(isset($_POST[$data['NAMA']])){
+					$query = mysql_query("INSERT INTO CEK_FASILITAS VALUES('', '".$kd_rmakan."', '".$data['KD_FASILITAS']."');");
+				}
 
-      // , PARKIR_MOTOR='".$parkirr."', PARKIR_MOBIL='".$parkirl."', LESEHAN='".$lesehan."', WIFI='".$wifi."', MUSHOLA='".$mushola."', TOILET='".$toilet."', GAZEBO='".$gazebo."', HALAL='".$halal."', AC='".$ac."', RUANG_RAPAT='".$r_rapat."', SOUND='".$sound."', LOKASI='".$lokasi."'
-    $query = mysql_query("INSERT INTO MD_RMAKAN VALUES ('', '', '', '".$nama."', '".$alamat."', '".$email."', '".$tlp."',  '', '".$luas."', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');");
+		}
+
 		if($query){
 			echo "<script>alert('data berhasil disimpan !');</script>";
         	echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
 		}else{
 			echo "<script>alert('data gagal disimpan !');</script>";
-      echo mysql_error($query);
         	echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
 		}
 	}
@@ -184,112 +140,98 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p>Alexander Pierce</p>
-          <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
-        </div>
-      </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <li class="header">MAIN NAVIGATION</li>
-        <li class="active treeview">
-          <a href="index.php">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <!-- <i class="fa fa-angle-left pull-right"></i> -->
-            </span>
-          </a>
-        </li>
+	<aside class="main-sidebar">
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			<!-- Sidebar user panel -->
+			<div class="user-panel">
+				<div class="pull-left image">
+					<img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+				</div>
+				<div class="pull-left info">
+					<p>Hudalloh</p>
+					<!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
+				</div>
+			</div>
+			<!-- search form -->
+			<form action="#" method="get" class="sidebar-form">
+				<div class="input-group">
+					<input type="text" name="q" class="form-control" placeholder="Search...">
+							<span class="input-group-btn">
+								<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+								</button>
+							</span>
+				</div>
+			</form>
+			<!-- /.search form -->
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="sidebar-menu">
+				<li class="header">MAIN NAVIGATION</li>
+				<li class="treeview">
+					<a href="../../index.php">
+						<i class="fa fa-dashboard"></i> <span>Dashboard</span>
+						<span class="pull-right-container">
+							<!-- <i class="fa fa-angle-left pull-right"></i> -->
+						</span>
+					</a>
+				</li>
+				<li class="treeview">
+					<a href="list_makanan.php">
+						<i class="fa fa-folder"></i> <span>Data Makanan</span>
+						<span class="pull-right-container">
+							<!-- <i class="fa fa-angle-left pull-right"></i> -->
+						</span>
+					</a>
+				</li>
+				<li class="treeview">
+					<a href="list_tempat.php">
+						<i class="fa fa-folder"></i> <span>Data Tempat Makan</span>
+						<span class="pull-right-container">
+							<!-- <i class="fa fa-angle-left pull-right"></i> -->
+						</span>
+					</a>
+				</li>
 
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Makanan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="list_makanan.php"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Tempat Makan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data User</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-pie-chart"></i>
-            <span>Parameter</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-folder"></i>
+						<span>Data User</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
+						<li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
+						<li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
+						<li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
+					</ul>
+				</li>
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-pie-chart"></i>
+						<span>Parameter</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
+						<li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
+						<li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
+						<li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+		<!-- /.sidebar -->
+	</aside>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        UPDATE TEMPAT MAKAN
+        TAMBAH TEMPAT MAKAN
         <small>rekomendasi tempat makan</small>
       </h1>
       <ol class="breadcrumb">
@@ -307,50 +249,74 @@
 					<div class="panel-body">
 						<form method="post" action="#" enctype="multipart/form-data">
   						<div class="col-md-6">
-  							<div class="form-group">
-                  <label>Kode Rumah Makan </label>
-                  <input type="text" name="kd_rmakan" class="form-control" >
-                </div>
+								<div class="form-group">
+									<p><b>Pemilik</b></p>
+									<select class="form-control" name="kd_user">
+										<option value="-">Pilih User</option>
+										<?php
+										echo $id;
+										$query = mysql_query("SELECT KD_USER, NAMA FROM MD_USER ;");
+										while($data = mysql_fetch_array($query)){
+											?>
+											<option value="<?php echo $data['KD_USER']; ?>"> <?php echo $data['NAMA']; ?> </option>
+											<?php } ?>
+
+										</select>
+								</div>
                 <div class="form-group">
                   <label>Nama Rumah Makan </label>
-                  <input type="text" name="nama" class="form-control" >
+                  <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama">
                 </div>
+								<div class="form-group">
+									<p><b>Jenis</b></p>
+									<select class="form-control" name="kd_jenis">
+										<option value="-">Pilih Jenis</option>
+										<?php
+										$query = mysql_query("SELECT KD_JENIS, JENIS FROM JENIS_RM ;");
+										while($data = mysql_fetch_array($query)){
+											?>
+											<option value="<?php echo $data['KD_JENIS']; ?>"> <?php echo $data['JENIS']; ?> </option>
+											<?php } ?>
+
+										</select>
+								</div>
                 <div class="form-group">
                   <label>Alamat </label>
-                  <input type="text" name="alamat" class="form-control">
+                  <input type="text" name="alamat" class="form-control" placeholder="Alamat Lengkap">
                 </div>
                 <div class="form-group">
                   <label>Email </label>
-                  <input type="email" name="email" class="form-control" >
+                  <input type="email" name="email" class="form-control" placeholder="Email" >
                 </div>
   						</div>
 
   						<div class="col-md-6">
   							<div class="form-group">
   								<label>Telephon </label>
-  								<input type="number" name="tlp" class="form-control" >
+  								<input type="number" name="tlp" class="form-control" placeholder="085xxxxxxxxx">
   							</div>
   							<div class="form-group">
                   <label>Luas </label>
-                  <input type="number" name="luas" class="form-control" >
+                  <input type="number" name="luas" class="form-control" placeholder="Dalam Meter Persegi(m2)" >
                 </div>
-               <!--  <div class="form-group">
+  							<div class="form-group">
+                  <label>Lokasi </label>
+                  <input type="type" name="lokasi" class="form-control" placeholder="Koordinat Lokasi" >
+                </div>
+
+                <div class="form-group">
   								<label>Fasilitas </label>
-  								<input type="checkbox" class="flat" <?php  echo $data['PARKIR_MOTOR']; ?>> Parkir Motor <br>
-                  <input type="checkbox" class="flat" <?php  echo $data['LUAS']; ?>> Parkir Mobil <br>
-                  <input type="checkbox" class="flat" <?php  echo $data['LUAS']; ?>> Lesehan <br>
-                  <input type="checkbox" class="flat" <?php  echo $wifi; ?>> Wifi
-                  <input type="checkbox" class="flat" <?php  echo $mushola; ?>> Mushola <br>
-                  <input type="checkbox" class="flat" <?php  echo $toilet; ?>> Toilet
-                  <input type="checkbox" class="flat" <?php  echo $gazebo; ?>> Gazebo <br>
-                  <input type="checkbox" class="flat" <?php  echo $halal; ?>> Halal
-                  <input type="checkbox" class="flat" <?php  echo $kipas; ?>> Kipas <br>
-                  <input type="checkbox" class="flat" <?php  echo $ac; ?>> AC
-                  <input type="checkbox" class="flat" <?php  echo $ruang_rapat; ?>> Ruang Rapat <br>
-                  <input type="checkbox" class="flat" <?php  echo $proyektor; ?>> Proyektor
-                  <input type="checkbox" class="flat" <?php  echo $sound; ?>> Sound
-   -->
-  							</div>
+									<br>
+									<?php
+									$sql= mysql_query("SELECT * FROM FASILITAS;");
+									while($data= mysql_fetch_array($sql)){
+										?>
+										<input type="checkbox" class="flat" style="margin-left:5px" name="<?php echo $data['NAMA']; ?>" > <?php echo $data['NAMA']; ?>
+										<?php
+								}?>
+
+								 </div>
+							 </div>
 
               <div class="col-md-12">
                 <div class="form-group">

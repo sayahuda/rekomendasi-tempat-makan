@@ -318,10 +318,11 @@
     									<select class="form-control" name="rasa">
     										<option value="-"></option>
     										<?php
-    										$query = mysql_query("SELECT RASA FROM MD_MAKANAN;");
+    										$query = mysql_query("SELECT MD_MAKANAN.KD_RASA AS KD_RASA, V_RASA.KD_RASA AS RASA, V_RASA.NAMA AS NAMA
+													FROM V_RASA JOIN MD_MAKANAN ON MD_MAKANAN.KD_RASA=V_RASA.KD_RASA ;");
     										while($data = mysql_fetch_array($query)){
     											?>
-    											<option value="<?php echo $data['RASA']; ?>"> <?php echo $data['RASA']; ?> </option>
+    											<option value="<?php echo $data['KD_RASA']; ?>"> <?php echo $data['NAMA']; ?> </option>
     											<?php } ?>
 
     										</select>
@@ -331,10 +332,10 @@
     									<select class="form-control" name="jenis">
     										<option value="-"></option>
     										<?php
-    										$query = mysql_query("SELECT KD_JENIS FROM JENIS_RM;");
+    										$query = mysql_query("SELECT * FROM JENIS_RM;");
     										while($data = mysql_fetch_array($query)){
     											?>
-    											<option value="<?php echo $data['KD_JENIS']; ?>"> <?php echo $data['KD_JENIS']; ?> </option>
+    											<option value="<?php echo $data['KD_JENIS']; ?>"> <?php echo $data['JENIS']; ?> </option>
     											<?php } ?>
 
     										</select>
@@ -368,21 +369,6 @@
 
     									</select>
     								</div>
-
-    								<div class="form-group">
-    									<p>Kebersihan Tempat Makan:</p>
-    									<select class="form-control" name="kebersihan">
-    										<option value="-"></option>
-    										<?php
-    										$query = mysql_query("SELECT status FROM v_kebersihan;");
-    										while($data = mysql_fetch_array($query)){
-    											?>
-    											<option value="<?php echo $data['status']; ?>" > <?php echo $data['status']; ?> </option>
-    											<?php } ?>
-
-    										</select>
-    									</div>
-
 
     							</div>
     							<div class="col-md-6">

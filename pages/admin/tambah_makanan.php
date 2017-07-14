@@ -10,25 +10,19 @@
 	      $uploadOk = 1;
 	      $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
-
-	      // $check = getimagesize($_FILES["gambar"]["tmp_name"]);
-	      // if($check !== false) {
-	      //         $uploadOk = 1;
-	      //     } else {
-	      //         $peringatan="maaf yang anda pilih bukan gambar :-(";
-	      //         $uploadOk = 0;
-	      //     }
+	      $check = getimagesize($_FILES["gambar"]["tmp_name"]);
+	      if($check !== false) {
+	              $uploadOk = 1;
+	          } else {
+	              $peringatan="maaf yang anda pilih bukan gambar :-(";
+	              $uploadOk = 0;
+	          }
 
 
 	      if ($_FILES["gambar"]["size"] > 2000000) {
 	          $peringatan='ukuran gambar terlalu besar pilih gambar dengan ukuran kurang 2 MB';
 	          $uploadOk = 0;
 	      }
-
-        if (file_exists($target_file)) {
-            echo "FIle Sudah Ada!!!";
-            $uploadOk = 0;
-        }
 
 	      if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 	      && $imageFileType != "gif" ) {
@@ -39,6 +33,9 @@
 	      if ($uploadOk == 0) {
 
 	      } else {
+	      		$temp = explode(".", $_FILES["gambar"]["name"]);
+				$newfilename = round(microtime(true)) . '.' . end($temp);
+				$target_file =$target_dir . $newfilename;
 	          if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
 	              $nama_file=$_FILES['gambar']['name'];
 	          } else {
@@ -48,16 +45,17 @@
 	          }
 	      }
 	}
-  echo $peringatan;
+	echo $peringatan;
 
 	if(isset($_POST['simpan'])){
 		$kd_rmakan = $_POST['kd_rmakan'];
-		$nama = $_POST['nama'];
 		$rasa = $_POST['rasa'];
+		$nama = $_POST['nama'];
 		$gambar = $_POST['path_file'];
 		$harga = $_POST['harga'];
 
-		$query = mysql_query("INSERT INTO MD_MAKANAN VALUES('','".$kd_rmakan."','".$nama."','".$gambar."','".$rasa."','".$harga."');");
+		$query = mysql_query("INSERT INTO `md_makanan`(`KD_MAKANAN`, `KD_RMAKAN`, `KD_RASA`, `NAMA`, `GAMBAR`, `HARGA`)
+												VALUES ('','".$kd_rmakan."','".$rasa."','".$nama."','".$gambar."','".$harga."');");
 
 		if($query){
 			echo "<script>alert('data berhasil disimpan !');</script>";
@@ -175,106 +173,92 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p>Alexander Pierce</p>
-          <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
-        </div>
-      </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <li class="header">MAIN NAVIGATION</li>
-        <li class="active treeview">
-          <a href="index.php">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <!-- <i class="fa fa-angle-left pull-right"></i> -->
-            </span>
-          </a>
-        </li>
+	<aside class="main-sidebar">
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			<!-- Sidebar user panel -->
+			<div class="user-panel">
+				<div class="pull-left image">
+					<img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+				</div>
+				<div class="pull-left info">
+					<p>Hudalloh</p>
+					<!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
+				</div>
+			</div>
+			<!-- search form -->
+			<form action="#" method="get" class="sidebar-form">
+				<div class="input-group">
+					<input type="text" name="q" class="form-control" placeholder="Search...">
+							<span class="input-group-btn">
+								<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+								</button>
+							</span>
+				</div>
+			</form>
+			<!-- /.search form -->
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="sidebar-menu">
+				<li class="header">MAIN NAVIGATION</li>
+				<li class="treeview">
+					<a href="../../index.php">
+						<i class="fa fa-dashboard"></i> <span>Dashboard</span>
+						<span class="pull-right-container">
+							<!-- <i class="fa fa-angle-left pull-right"></i> -->
+						</span>
+					</a>
+				</li>
+				<li class="treeview">
+					<a href="list_makanan.php">
+						<i class="fa fa-folder"></i> <span>Data Makanan</span>
+						<span class="pull-right-container">
+							<!-- <i class="fa fa-angle-left pull-right"></i> -->
+						</span>
+					</a>
+				</li>
+				<li class="treeview">
+					<a href="list_tempat.php">
+						<i class="fa fa-folder"></i> <span>Data Tempat Makan</span>
+						<span class="pull-right-container">
+							<!-- <i class="fa fa-angle-left pull-right"></i> -->
+						</span>
+					</a>
+				</li>
 
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Makanan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="list_makanan.php"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Tempat Makan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data User</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-pie-chart"></i>
-            <span>Parameter</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-folder"></i>
+						<span>Data User</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
+						<li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
+						<li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
+						<li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
+					</ul>
+				</li>
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-pie-chart"></i>
+						<span>Parameter</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
+						<li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
+						<li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
+						<li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+		<!-- /.sidebar -->
+	</aside>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -286,7 +270,7 @@
       <ol class="breadcrumb">
         <li><a href="index.php"><i class="fa fa-dashboard" class="active"></i> Home</a></li>
         <li><a href="list_makanan.php">Data Makanan</a></li>
-        <li class="active">Lihat</li>
+        <li class="active">Tambah</li>
       </ol>
     </section>
 
@@ -298,37 +282,55 @@
           <div class="panel panel-default">
 					<div class="panel-body">
 						<form method="post" action="#" enctype="multipart/form-data">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Kode Rumah Makan :</label>
-								<input type="number" name="kd_rmakan" class="form-control">
+							<div class="col-md-6">
+								<div class="form-group" >
+									<label>Gambar </label>
+									<div align="center">
+									<img height="50px" width="200px" align="middle" src="../asset/gambar/<?php echo $nama_file; ?>" class="img img-responsive">
+									<input type="text" name="path_file" class="form-control" value=<?php echo $nama_file; ?> readonly>
+									<input type="file" name="gambar" class="form-control">
+									</div>
+									<br>
+									<button type="submit" name="upload" class="btn btn-primary" style="width: 100%;">Upload</button>
+								</div>
+								
 							</div>
-
-							<div class="form-group">
-								<label>Nama Makanan :</label>
-								<input type="text" name="nama" class="form-control">
-							</div>
-
-							<div class="form-group">
-								<label>Gambar :</label>
-								<input type="file" name="gambar" class="form-control">
-								<br>
-                <img height="50px" width="200px" src="../asset/gambar/<?php echo $nama_file; ?>" class="img img-responsive">
-                <input type="text" name="path_file" class="form-control" value=<?php echo $nama_file; ?> readonly>
-								<br>
-								<button type="submit" name="upload" class="btn btn-primary" style="width: 100%;">Upload</button>
-							</div>
-						</div>
 
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Rasa Makanan :</label>
-								<input type="number" name="rasa" class="form-control">
+								<label>Nama Makanan </label>
+								<input type="text" name="nama" class="form-control" placeholder="Nama Makanan">
+							</div>
+							<div class="form-group">
+								<label>Rasa Makanan </label>
+								<select class="form-control" name="kd_rmakan" placeholder="pilih">
+										<option value="-">Pilih Salah Satu</option>
+										<?php
+										$query = mysql_query("SELECT * FROM MD_RMAKAN;");
+										while($data = mysql_fetch_array($query)){
+											?>
+											<option value="<?php echo $data['KD_RMAKAN']; ?>"> <?php echo $data['NM_RMAKAN']; ?> </option>
+											<?php } ?>
+
+										</select>
+							</div>
+							<div class="form-group">
+								<label>Rasa Makanan </label>
+								<select class="form-control" name="rasa" placeholder="pilih">
+										<option value="-">Pilih Salah Satu</option>
+										<?php
+										$query = mysql_query("SELECT * FROM v_rasa;");
+										while($data = mysql_fetch_array($query)){
+											?>
+											<option value="<?php echo $data['KD_RASA']; ?>"> <?php echo $data['NAMA']; ?> </option>
+											<?php } ?>
+
+										</select>
 							</div>
 
 							<div class="form-group">
-								<label>Harga Makanan (Rp.) :</label>
-								<input type="number" name="harga" class="form-control">
+								<label>Harga Makanan </label>
+								<input type="number" name="harga" class="form-control" placeholder="Dalam Rupiah">
 							</div>
 
 						</div>

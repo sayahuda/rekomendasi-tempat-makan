@@ -1,68 +1,7 @@
 <?php
-	$nama_file="default.jpg";
 	$peringatan='';
 	require_once('../../fungsi/fungsi.php');
 	konek_db();
-
-	if(isset($_POST['upload'])){
-		$target_dir = "asset/gambar/";
-	      $target_file = $target_dir . basename($_FILES["gambar"]["name"]);
-	      $uploadOk = 1;
-	      $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-
-
-	      $check = getimagesize($_FILES["gambar"]["tmp_name"]);
-	      if($check !== false) {
-	              $uploadOk = 1;
-	          } else {
-	              echo "Maaf yang File bukan Gambar!!!";
-	              $uploadOk = 0;
-	          }
-
-
-	      if ($_FILES["gambar"]["size"] > 2000000) {
-	          echo "Ukuran Gambar Terlalu Besar, Pilih Ukuran Gambar Kurang dari 2 MB !!! ";
-	          $uploadOk = 0;
-	      }
-
-	      if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-	      && $imageFileType != "gif" ) {
-	          echo "Pilih Gambar dengan Format : JPG, PNG, JPEG atau GIF";
-	          $uploadOk = 0;
-	      }
-
-	      if ($uploadOk == 0) {
-
-	      } else {
-	          if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
-	              $nama_file=$_FILES['gambar']['name'];
-	          } else {
-	              echo "<script>alert('Gagal Upload ke Server'); </script>";
-	              echo "<meta http-equiv='refresh' content='0; url=list_makanan.php'>";
-
-	          }
-	      }
-	}
-
-	if(isset($_POST['simpan'])){
-		$kd_rmakan = $_POST['kd_rmakan'];
-		$nama = $_POST['nama'];
-		$rasa = $_POST['rasa'];
-		$gambar = $_POST['path_file'];
-		$harga = $_POST['harga'];
-
-		$query = mysql_query("INSERT INTO MD_MAKANAN VALUES('','".$kd_rmakan."','".$nama."','".$gambar."','".$rasa."','".$harga."');");
-
-		if($query){
-			echo "<script>alert('data berhasil disimpan !');</script>";
-        	echo "<meta http-equiv='refresh' content='0; url=list_makanan.php'>";
-		}else{
-			echo "<script>alert('data gagal disimpan !');</script>";
-        	echo "<meta http-equiv='refresh' content='0; url=list_makanan.php'>";
-		}
-	}
-
-
 
  ?>
 
@@ -169,106 +108,92 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p>Alexander Pierce</p>
-          <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
-        </div>
-      </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <li class="header">MAIN NAVIGATION</li>
-        <li class="active treeview">
-          <a href="index.php">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <!-- <i class="fa fa-angle-left pull-right"></i> -->
-            </span>
-          </a>
-        </li>
+	<aside class="main-sidebar">
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			<!-- Sidebar user panel -->
+			<div class="user-panel">
+				<div class="pull-left image">
+					<img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+				</div>
+				<div class="pull-left info">
+					<p>Hudalloh</p>
+					<!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
+				</div>
+			</div>
+			<!-- search form -->
+			<form action="#" method="get" class="sidebar-form">
+				<div class="input-group">
+					<input type="text" name="q" class="form-control" placeholder="Search...">
+							<span class="input-group-btn">
+								<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+								</button>
+							</span>
+				</div>
+			</form>
+			<!-- /.search form -->
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="sidebar-menu">
+				<li class="header">MAIN NAVIGATION</li>
+				<li class="treeview">
+					<a href="../../index.php">
+						<i class="fa fa-dashboard"></i> <span>Dashboard</span>
+						<span class="pull-right-container">
+							<!-- <i class="fa fa-angle-left pull-right"></i> -->
+						</span>
+					</a>
+				</li>
+				<li class="treeview">
+					<a href="list_makanan.php">
+						<i class="fa fa-folder"></i> <span>Data Makanan</span>
+						<span class="pull-right-container">
+							<!-- <i class="fa fa-angle-left pull-right"></i> -->
+						</span>
+					</a>
+				</li>
+				<li class="treeview">
+					<a href="list_tempat.php">
+						<i class="fa fa-folder"></i> <span>Data Tempat Makan</span>
+						<span class="pull-right-container">
+							<!-- <i class="fa fa-angle-left pull-right"></i> -->
+						</span>
+					</a>
+				</li>
 
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Makanan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="list_makanan.php"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Tempat Makan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data User</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-pie-chart"></i>
-            <span>Parameter</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-folder"></i>
+						<span>Data User</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
+						<li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
+						<li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
+						<li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
+					</ul>
+				</li>
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-pie-chart"></i>
+						<span>Parameter</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
+						<li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
+						<li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
+						<li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+		<!-- /.sidebar -->
+	</aside>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -337,7 +262,7 @@
                     <td align="center">
                       <a class="glyphicon glyphicon-cloud" href="detail_tempat.php?id=<?php echo $isi['KD_RMAKAN']; ?>" title="Detail" ></a>
                       <a class="glyphicon glyphicon-edit" href="update_tempat.php?id=<?php echo $isi['KD_RMAKAN']; ?>" title="Edit" ></a>
-                      <a class="glyphicon glyphicon-trash" href="delete_tempat.php?id=<?php echo $isi['KD_MAKANAN']; ?>" title="Hapus" ></a>
+                      <a class="glyphicon glyphicon-trash" href="delete_tempat.php?id=<?php echo $isi['KD_RMAKAN']; ?>" title="Hapus" ></a>
                     </td>
 									</tr>
 									<?php

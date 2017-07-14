@@ -1,7 +1,7 @@
 <?php
 	function konek_db(){
 		mysql_connect('localhost','root','');
-		mysql_select_db('rekomendasi');
+		mysql_select_db('skripsi');
 	}
 
 	function mf_linear_naik($nilai, $pilihan, $status){
@@ -71,9 +71,8 @@
 		$query = mysql_query("SELECT LOKASI FROM MD_RMAKAN WHERE KD_RMAKAN='".$KD_RMAKAN."' ;");
 		$data = mysql_fetch_array($query);
 		$from = "-7.7783772,110.4000222";
-		$p = "-7.866103,110.116653";
-		// $p = $data['LOKASI'];
-	  $to = "$p";
+		$to = $data['LOKASI'];
+	  // $to = "$p";
 	  // echo $to."<br>";
 	  $from = urlencode($from);
 	  $to = urlencode($to);
@@ -94,80 +93,30 @@
 		return $kilo;
 	}
 	function hit_fasilitas($KD_RMAKAN){
-		$sql_fasilitas = mysql_query("SELECT PARKIR_MOTOR, PARKIR_MOBIL, LESEHAN, WIFI, MUSHOLA, TOILET, GAZEBO, HALAL, KIPAS, AC,
-			RUANG_RAPAT, PROYEKTOR, SOUND FROM MD_RMAKAN WHERE KD_RMAKAN='".$KD_RMAKAN."';");
-		$data_fasilitas = mysql_fetch_array($sql_fasilitas);
-
-		$temp=0;
-		if($data_fasilitas['PARKIR_MOBIL']==1){
-			$temp++;
-		}
-
-		if ($data_fasilitas['PARKIR_MOTOR']==1){
-			$temp++;
-		}
-
-		if ($data_fasilitas['LESEHAN']==1){
-			$temp++;
-		}
-
-		if($data_fasilitas['WIFI']==1){
-			$temp++;
-		}
-
-		if($data_fasilitas['MUSHOLA']==1){
-			$temp++;
-		}
-
-		if($data_fasilitas['TOILET']==1){
-			$temp++;
-		}
-		if($data_fasilitas['GAZEBO']==1){
-			$temp++;
-		}
-		if($data_fasilitas['HALAL']==1){
-			$temp++;
-		}
-		if($data_fasilitas['KIPAS']==1){
-			$temp++;
-		}
-		if($data_fasilitas['AC']==1){
-			$temp++;
-		}
-		if($data_fasilitas['RUANG_RAPAT']==1){
-			$temp++;
-		}
-		if($data_fasilitas['PROYEKTOR']==1){
-			$temp++;
-		}
-		if($data_fasilitas['SOUND']==1){
-			$temp++;
-		}
-		return $temp;
+		$sql_fasilitas = mysql_query("SELECT * FROM CEK_FASILITAS WHERE KD_RMAKAN='".$KD_RMAKAN."';");
+		$data_fasilitas = mysql_num_rows($sql_fasilitas);		
+		return $data_fasilitas;
 	}
 
-	function lihat_hasil($rasa, $jenis, $harga, $jarak, $luas, $kebersihan, $fasilitas, $operator){
+	function lihat_hasil($rasa, $jenis, $harga, $jarak, $luas, $fasilitas, $operator){
 		if($rasa=='-' && $jenis=='-'){
 		$sql = mysql_query("SELECT MD_MAKANAN.KD_MAKANAN AS KD_MAKANAN, MD_RMAKAN.KD_RMAKAN AS KD_RMAKAN, MD_MAKANAN.NAMA AS NAMA,
-			MD_MAKANAN.RASA AS RASA, MD_MAKANAN.HARGA AS HARGA, MD_RMAKAN.KD_JENIS AS KD_JENIS, MD_RMAKAN.LUAS AS LUAS, MD_RMAKAN.KEBERSIHAN AS KEBERSIHAN
+			MD_MAKANAN.KD_RASA AS RASA, MD_MAKANAN.HARGA AS HARGA, MD_RMAKAN.KD_JENIS AS KD_JENIS, MD_RMAKAN.LUAS AS LUAS
 			FROM MD_MAKANAN JOIN MD_RMAKAN ON MD_MAKANAN.KD_RMAKAN=MD_RMAKAN.KD_RMAKAN;");
 		}else if($rasa!='-' AND $jenis!='-') {
 			$sql = mysql_query("SELECT MD_MAKANAN.KD_MAKANAN AS KD_MAKANAN, MD_RMAKAN.KD_RMAKAN AS KD_RMAKAN, MD_MAKANAN.NAMA AS NAMA,
-				MD_MAKANAN.RASA AS RASA, MD_MAKANAN.HARGA AS HARGA, MD_RMAKAN.KD_JENIS AS KD_JENIS, MD_RMAKAN.LUAS AS LUAS, MD_RMAKAN.KEBERSIHAN AS KEBERSIHAN
-				FROM MD_MAKANAN JOIN MD_RMAKAN ON MD_MAKANAN.KD_RMAKAN=MD_RMAKAN.KD_RMAKAN WHERE RASA=$rasa AND KD_JENIS=$jenis;");
+				MD_MAKANAN.KD_RASA AS RASA, MD_MAKANAN.HARGA AS HARGA, MD_RMAKAN.KD_JENIS AS KD_JENIS, MD_RMAKAN.LUAS AS LUAS
+				FROM MD_MAKANAN JOIN MD_RMAKAN ON MD_MAKANAN.KD_RMAKAN=MD_RMAKAN.KD_RMAKAN WHERE KD_RASA='$rasa' AND KD_JENIS='$jenis';");
 		}else {
 			$sql = mysql_query("SELECT MD_MAKANAN.KD_MAKANAN AS KD_MAKANAN, MD_RMAKAN.KD_RMAKAN AS KD_RMAKAN, MD_MAKANAN.NAMA AS NAMA,
-				MD_MAKANAN.RASA AS RASA, MD_MAKANAN.HARGA AS HARGA, MD_RMAKAN.KD_JENIS AS KD_JENIS, MD_RMAKAN.LUAS AS LUAS, MD_RMAKAN.KEBERSIHAN AS KEBERSIHAN
-				FROM MD_MAKANAN JOIN MD_RMAKAN ON MD_MAKANAN.KD_RMAKAN=MD_RMAKAN.KD_RMAKAN WHERE RASA='$rasa' OR KD_JENIS='$jenis';");
+				MD_MAKANAN.KD_RASA AS RASA, MD_MAKANAN.HARGA AS HARGA, MD_RMAKAN.KD_JENIS AS KD_JENIS, MD_RMAKAN.LUAS AS LUAS
+				FROM MD_MAKANAN JOIN MD_RMAKAN ON MD_MAKANAN.KD_RMAKAN=MD_RMAKAN.KD_RMAKAN WHERE KD_RASA='$rasa' OR KD_JENIS='$jenis';");
 		}
-		
-		if($harga!='' && $jarak!='' && $luas!='' && $kebersihan!='' && $fasilitas!='' && $operator!=''){
-			while($data = mysql_fetch_array($sql)){
 
-				// $t_rasa	      = 'v_rasa';
+		if($harga!='' && $jarak!='' && $luas!=''  && $fasilitas!='' && $operator!=''){
+			while($data = mysql_fetch_array($sql)){
 				$t_harga	    = 'v_harga';
 				$t_jarak	    = 'v_jarak';
-				$t_kebersihan	= 'v_kebersihan';
 				$t_fasilitas	= 'v_fasilitas';
 				$t_luas	      = 'v_luas';
 
@@ -177,54 +126,24 @@
 				$max = 0;
 				$min = 1;
 
-				//cek rasa
-        // if ($rasa=='-') {
-        //   $nk_rasa = '-';
-        // }elseif (strtoupper($rasa)=='CUKUP ENAK') {
-        //   $nk_rasa = mf_linear_turun($data['RASA'], $t_rasa, $rasa);
-				//
-        //   $temp[$i] = $nk_rasa;
-        //   $i++;
-        // }elseif (strtoupper($rasa)=='ENAK') {
-        //   $nk_rasa = mf_linear_sgt($data['RASA'], $t_rasa, $rasa);
-				//
-        //   $temp[$i] = $nk_rasa;
-        //   $i++;
-        // }else {
-        //   $nk_rasa = mf_linear_naik($data['RASA'], $t_rasa, $rasa);
-				//
-        //   $temp[$i] = $nk_rasa;
-        //   $i++;
-        // }
-
 
 				//cek harga
 				if($harga=='-'){
 					$nk_harga	= '-';
 				}else if(strtoupper($harga)=='MURAH'){
 					$nk_harga	= mf_linear_turun($data['HARGA'], $t_harga, $harga);
-
 					$temp[$i]	= $nk_harga;
 					$i++;
-
 				}else if(strtoupper($harga)=='MENENGAH'){
 					$nk_harga	= mf_linear_sgt($data['HARGA'], $t_harga, $harga);
-
 					$temp[$i]	= $nk_harga;
 					$i++;
-
 				}else{
 					$nk_harga	= mf_linear_naik($data['HARGA'], $t_harga, $harga);
-
 					$temp[$i]	= $nk_harga;
 					$i++;
-
 				}
-
-				$djarak = 44;
-
-				// echo "jarak : ".$jarak;
-				// echo "<br>";
+				$djarak = hit_jarak($data['KD_RMAKAN']);
 
 				// cek jarak_tempuh
         if ($jarak=='-') {
@@ -242,29 +161,6 @@
         }else{
           $nk_jarak = mf_linear_naik($djarak, $t_jarak, $jarak);
         }
-
-				//cek kebersihan
-				if($kebersihan=='-'){
-					$nk_kebersihan	= '-';
-				}else if(strtoupper($kebersihan)=='CUKUP BERSIH'){
-					$nk_kebersihan	= mf_linear_turun($data['KEBERSIHAN'], $t_kebersihan, $kebersihan);
-
-					$temp[$i]	= $nk_kebersihan;
-					$i++;
-
-				}else if(strtoupper($kebersihan)=='BERSIH'){
-					$nk_kebersihan	= mf_linear_sgt($data['KEBERSIHAN'], $t_kebersihan, $kebersihan);
-
-					$temp[$i]	= $nk_kebersihan;
-					$i++;
-
-				}else{
-					$nk_kebersihan	= mf_linear_naik($data['KEBERSIHAN'], $t_kebersihan, $kebersihan);
-
-					$temp[$i]	= $nk_kebersihan;
-					$i++;
-
-				}
 
 
         //cek luas
@@ -335,13 +231,10 @@
         										'rasa'	     	=> $data['RASA'],
         										'harga'	     	=> $data['HARGA'],
 														'jarak'	     => $djarak,
-        										'kebersihan' => $data['KEBERSIHAN'],
 														'jenis'	     => $data['KD_JENIS'],
         										'luas'	     => $data['LUAS'],
         										'fasilitas'  => $jumlah_fasilitas,
-        										// 'nk_rasa' 	 => round($nk_rasa,2),
         										'nk_harga'   => round($nk_harga,2),
-        										'nk_kebersihan'	=> round($nk_kebersihan,2),
         										'nk_jarak'	=> round($nk_jarak,2),
         										'nk_luas' 	=> round($nk_luas,2),
         										'nk_fasilitas' 	=> round($nk_fasilitas,2),

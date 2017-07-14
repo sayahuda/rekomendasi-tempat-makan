@@ -4,7 +4,7 @@
   konek_db();
 
   $id = $_GET['id'];
-  $query = mysql_query("SELECT * FROM MD_RMAKAN WHERE KD_RMAKAN=$id;");
+  $query = mysql_query("SELECT * FROM MD_USER WHERE KD_USER='".$id."';");
   $data = mysql_fetch_array($query);
  ?>
 
@@ -160,7 +160,7 @@
               <!-- <i class="fa fa-angle-left pull-right"></i> -->
             </span>
           </a>
-        </li>        
+        </li>
 
         <li class="treeview">
           <a href="#">
@@ -206,8 +206,8 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="index.php"><i class="fa fa-dashboard" class="active"></i> Home</a></li>
-        <li><a href="list_tempat.php">Data Tempat Makan</a></li>
-        <li class="active">Detail Tempat Makan</li>
+        <li><a href="list_user.php">Data User</a></li>
+        <li class="active">Profile</li>
       </ol>
     </section>
 
@@ -217,31 +217,36 @@
       <div class="row">
       <div class="col-md-12">
           <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title">Data Tempat Makan</h3>
-              </div>
+            <div class="box-header">
+              <h3 class="box-title">Data User</h3>
+            </div>
+            
             <!-- /.box-header -->
             <div class="box-body">
               <div class="col-md-6">
                 <table id="example3" class="table table-bordered table-hover">
                   <thead >
                     <tr>
+                      <td><b>Kode   </b></td>
+                      <td><?php echo $data['KD_USER']; ?></td>
+                    </tr>
+                    <tr>
                       <td><b>Nama   </b></td>
-                      <td><?php echo $data['NM_RMAKAN']; ?></td>
+                      <td><?php echo $data['NAMA']; ?></td>
                     </tr>
 
                     <tr>
-                      <td><b>Alamat   </b></td>
+                      <td><b>Username   </b></td>
+                      <td><?php echo $data['USERNAME']; ?></td>
+                    </tr>
+
+                    <tr>
+                      <td><b>Password </b></td>
+                      <td><?php echo $data['PASSWORD']; ?></td>
+                    </tr>
+                    <tr>
+                      <td><b>Alamat </b></td>
                       <td><?php echo $data['ALAMAT']; ?></td>
-                    </tr>
-
-                    <tr>
-                      <td><b>Email </b></td>
-                      <td><?php echo $data['EMAIL']; ?></td>
-                    </tr>
-                    <tr>
-                      <td><b>Telephon </b></td>
-                      <td><?php echo $data['NO_TLP']; ?></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -252,34 +257,25 @@
                 <table id="example3" class="table table-bordered table-hover">
                   <thead >
                     <tr>
-                      <td><b>Luas   </b></td>
-                      <td><?php echo m2($data['LUAS']); ?></td>
+                      <td><b>Telephon   </b></td>
+                      <td><?php echo m2($data['NO_HP']); ?></td>
                     </tr>
-
                     <tr>
-                      <td><b>Fasilitas  </b></td>
-                      <td>
-                        <br>
-                        <?php
-
-                        $sql= mysql_query("SELECT FASILITAS.NAMA AS NAMA, FASILITAS.KD_FASILITAS AS KD_FASILITAS, CEK_FASILITAS.KD_FASILITAS AS FASILITAS,
-                          CEK_FASILITAS.KD_RMAKAN AS RMAKAN
-                          FROM CEK_FASILITAS JOIN MD_RMAKAN ON CEK_FASILITAS.KD_RMAKAN=MD_RMAKAN.KD_RMAKAN
-                          JOIN FASILITAS ON CEK_FASILITAS.KD_FASILITAS = FASILITAS.KD_FASILITAS WHERE CEK_FASILITAS.KD_RMAKAN=$id;");
-                        $no = 1;
-                        while ($data = mysql_fetch_array($sql))
-                        {
-                          echo "<input type='checkbox' checked value='".$data['NAMA']."' /> ".$data['NAMA']."<br />";
-                          $no++;
-
-                        }
-                         ?>
-
-
-
-
-                      </td>
+                      <td><b>Email </b></td>
+                      <td><?php echo $data['EMAIL']; ?></td>
                     </tr>
+                    <tr>
+                      <td><b>Level </b></td>
+                      <td><?php
+                      if ($data['LEVEL']==1) {
+                        echo "ADMIN";
+                      }else if ($data['LEVEL']==2) {
+                        echo "PEMILIK RUMAH MAKAN";
+                      }else {
+                        echo "Belum Ada";
+                      } ?></td>
+                    </tr>
+
                   </thead>
                   <tbody>
                   </tfoot>
@@ -299,56 +295,6 @@
         </div>
       </div> -->
 
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">List Data Makanan</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
-                <thead >
-                  <tr >
-                      <th style="text-align: center" width="20px">No</th>
-                      <th style="text-align: center" width="30px">Kode</th>
-                      <th style="text-align: center" width="250px">Nama</th>
-                      <th >Rasa</th>
-                      <th >Harga</th>
-                      <th style="text-align: center" >Action</th>
-                   </tr>
-                </thead>
-                <tbody>
-                  <?php
-                  $i=0;
-                $sql = mysql_query("SELECT MD_MAKANAN.KD_RMAKAN AS KD_RMAKAN, MD_MAKANAN.KD_MAKANAN AS KD_MAKANAN,
-                  MD_MAKANAN.NAMA AS NAMA, MD_MAKANAN.HARGA AS HARGA, V_RASA.NAMA AS RASA FROM MD_MAKANAN JOIN V_RASA
-                  ON MD_MAKANAN.KD_RASA=V_RASA.KD_RASA WHERE KD_RMAKAN=$id;");
-                while ($isi = mysql_fetch_array($sql)) {
-                  $i++;
-                  ?>
-                  <tr >
-                    <td align="center"><?php echo $i; ?></td>
-                    <td><?php echo $isi['KD_RMAKAN'].$isi['KD_MAKANAN']; ?></td>
-                    <td align="center"><?php echo $isi['NAMA']; ?></td>
-                    <td><?php echo $isi['RASA']; ?></td>
-                    <td><?php echo rp($isi['HARGA']); ?></td>
-                    <td align="center">
-                      <a class="glyphicon glyphicon-cloud" href="detail_makanan.php?id=<?php echo $isi['KD_MAKANAN']; ?>" title="Detail" ></a>
-                      <a class="glyphicon glyphicon-edit" href="update_makanan.php?id=<?php echo $isi['KD_MAKANAN']; ?>" title="Edit" ></a>
-                      <a class="glyphicon glyphicon-trash" href="delete_makanan.php?id=<?php echo $isi['KD_MAKANAN']; ?>" title="Hapus" ></a>
-                    </td>
-                  </tr>
-                  <?php
-                }
-
-               ?>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
 
       </div>
 

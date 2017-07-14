@@ -4,13 +4,10 @@
   konek_db();
 
   $id = $_GET['id'];
-  $query = mysql_query("SELECT MD_MAKANAN.KD_MAKANAN AS KD_MAKANAN, MD_MAKANAN.NAMA AS NAMA, MD_MAKANAN.GAMBAR AS GAMBAR, MD_MAKANAN.RASA AS RASA, MD_MAKANAN.HARGA AS HARGA,
-    MD_RMAKAN.KD_RMAKAN AS KD_RMAKAN, MD_RMAKAN.NM_RMAKAN AS NM_RMAKAN, MD_RMAKAN.ALAMAT AS ALAMAT, MD_RMAKAN.EMAIL AS EMAIL,
-    MD_RMAKAN.NO_TLP AS NO_TLP, MD_RMAKAN.JAM AS JAM, MD_RMAKAN.LOKASI AS LOKASI,
-    MD_RMAKAN.LUAS AS LUAS, MD_RMAKAN.KEBERSIHAN AS KEBERSIHAN, MD_RMAKAN.PARKIR_MOTOR AS PARKIR_MOTOR, MD_RMAKAN.PARKIR_MOBIL AS PARKIR_MOBIL,
-    MD_RMAKAN.WIFI AS WIFI, MD_RMAKAN.MUSHOLA AS MUSHOLA, MD_RMAKAN.TOILET AS TOILET, MD_RMAKAN.GAZEBO AS GAZEBO, MD_RMAKAN.HALAL AS HALAL, MD_RMAKAN.KIPAS AS KIPAS,
-    MD_RMAKAN.AC AS AC, MD_RMAKAN.RUANG_RAPAT AS RUANG_RAPAT, MD_RMAKAN.PROYEKTOR AS PROYEKTOR, MD_RMAKAN.SOUND AS SOUND,
-    MD_RMAKAN.LESEHAN AS LESEHAN FROM MD_RMAKAN JOIN MD_MAKANAN ON MD_RMAKAN.KD_RMAKAN=MD_MAKANAN.KD_RMAKAN WHERE KD_MAKANAN=$id;");
+  $query = mysql_query("SELECT MD_MAKANAN.KD_MAKANAN AS KD_MAKANAN, MD_MAKANAN.NAMA AS NAMA, MD_MAKANAN.GAMBAR AS GAMBAR, MD_MAKANAN.HARGA AS HARGA,
+    MD_RMAKAN.KD_RMAKAN AS KD_RMAKAN, MD_RMAKAN.NM_RMAKAN AS NM_RMAKAN, MD_RMAKAN.LUAS AS LUAS, MD_RMAKAN.ALAMAT AS ALAMAT, MD_RMAKAN.EMAIL AS EMAIL,
+    MD_RMAKAN.NO_TLP AS NO_TLP, MD_RMAKAN.LOKASI AS LOKASI, V_RASA.NAMA AS RASA FROM MD_MAKANAN JOIN MD_RMAKAN ON MD_MAKANAN.KD_RMAKAN=MD_RMAKAN.KD_RMAKAN
+    JOIN V_RASA ON MD_MAKANAN.KD_RASA=V_RASA.KD_RASA WHERE KD_MAKANAN='".$id."';");
   $data = mysql_fetch_array($query);
 
  ?>
@@ -123,10 +120,10 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>Hudalloh</p>
           <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
         </div>
       </div>
@@ -144,45 +141,31 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active treeview">
-          <a href="index.php">
+        <li class="treeview">
+          <a href="../../index.php">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             <span class="pull-right-container">
               <!-- <i class="fa fa-angle-left pull-right"></i> -->
             </span>
           </a>
         </li>
+        <li class="treeview">
+          <a href="list_makanan.php">
+            <i class="fa fa-folder"></i> <span>Data Makanan</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="list_tempat.php">
+            <i class="fa fa-folder"></i> <span>Data Tempat Makan</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
 
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Makanan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="list_makanan.php"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Tempat Makan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-folder"></i>
@@ -253,12 +236,12 @@
               <table id="example3" class="table table-bordered table-hover">
                 <thead >
                   <tr>
-                    <td><b>Nama   </b></td>
+                    <td><b>Nama Makanan  </b></td>
                     <td><?php echo $data['NAMA']; ?></td>
                   </tr>
 
                   <tr>
-                    <td><b>Rasa   </b></td>
+                    <td><b>Jenis Makanan   </b></td>
                     <td><?php echo $data['RASA']; ?></td>
                   </tr>
 
@@ -292,15 +275,9 @@
                 </tr>
 
                 <tr>
-                  <td><b>Kebersihan </b></td>
-                  <td><?php echo ($data['KEBERSIHAN']); ?></td>
-                </tr>
-
-                <tr>
                   <td><b>Lokasi</b></td>
                   <td><?php echo ($data['LOKASI']); ?></td>
                 </tr>
-
 
                 <tr>
                   <td><b>Luas   </b></td>
@@ -309,34 +286,20 @@
 
                 <tr>
                   <td><b>Fasilitas  </b></td>
-                  <td>
-                    <?php $parkirR = fasilitas($data['PARKIR_MOTOR']); ?>
-                    <?php $parkirB = fasilitas($data['PARKIR_MOBIL']); ?>
-                    <?php $lesehan = fasilitas($data['LESEHAN']); ?>
-                    <?php $wifi = fasilitas($data['WIFI']); ?>
-                    <?php $mushola = fasilitas($data['MUSHOLA']); ?>
-                    <?php $toilet = fasilitas($data['TOILET']); ?>
-                    <?php $gazebo = fasilitas($data['GAZEBO']); ?>
-                    <?php $halal = fasilitas($data['HALAL']); ?>
-                    <?php $kipas = fasilitas($data['KIPAS']); ?>
-                    <?php $ac = fasilitas($data['AC']); ?>
-                    <?php $ruang_rapat = fasilitas($data['RUANG_RAPAT']); ?>
-                    <?php $proyektor = fasilitas($data['PROYEKTOR']); ?>
-                    <?php $sound = fasilitas($data['SOUND']); ?>
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $parkirR; ?>> Parkir Motor <br>
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $parkirB; ?>> Parkir Mobil <br>
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $lesehan; ?>> Lesehan <br>
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $wifi; ?>> Wifi
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $mushola; ?>> Mushola <br>
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $toilet; ?>> Toilet
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $gazebo; ?>> Gazebo <br>
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $halal; ?>> Halal
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $kipas; ?>> Kipas <br>
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $ac; ?>> AC
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $ruang_rapat; ?>> Ruang Rapat <br>
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $proyektor; ?>> Proyektor
-                    <input type="checkbox" class="flat" disabled="disabled" <?php  echo $sound; ?>> Sound
 
+                  <?php
+                  $kode= $data['KD_RMAKAN'];
+                  $query= mysql_query("SELECT FASILITAS.NAMA AS NAMA, FASILITAS.KD_FASILITAS AS KD_FASILITAS, CEK_FASILITAS.KD_FASILITAS AS FASILITAS,
+                    CEK_FASILITAS.KD_RMAKAN AS RMAKAN
+                    FROM CEK_FASILITAS JOIN MD_RMAKAN ON CEK_FASILITAS.KD_RMAKAN=MD_RMAKAN.KD_RMAKAN
+                    JOIN FASILITAS ON CEK_FASILITAS.KD_FASILITAS = FASILITAS.KD_FASILITAS WHERE CEK_FASILITAS.KD_RMAKAN='".$kode."';");
+                    while ($data = mysql_fetch_array($query)){
+                      echo "<input type='checkbox' checked value='".$data['NAMA']."' /> ".$data['NAMA']."<br />";
+                      $no++;
+
+                    }
+                    ?>
+                    <td>
 
                   </td>
                 </tr>

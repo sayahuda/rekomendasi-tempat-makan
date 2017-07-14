@@ -4,17 +4,17 @@
 	if (!isset($_POST['rasa'])) {
 		echo '<script>document.location="index.php";</script>';
 	}
+
 	$rasa = $_POST['rasa'];
 	$jenis = $_POST['jenis'];
 	$harga  = $_POST['harga'];
 	$jarak  = $_POST['jarak'];
 	$luas  = $_POST['luas'];
-	$kebersihan  = $_POST['kebersihan'];
 	$fasilitas  = $_POST['fasilitas'];
 	$operator = $_POST['operator'];
 
 
-	$hasil = lihat_hasil($rasa, $jenis, $harga, $jarak, $luas, $kebersihan, $fasilitas, $operator);
+	$hasil = lihat_hasil($rasa, $jenis, $harga, $jarak, $luas, $fasilitas, $operator);
 
 	//shorting in foreach
 	$index = 0;
@@ -26,13 +26,10 @@
 		$rslt[$index]['harga']				 = $result['harga'];
 		$rslt[$index]['jarak']				 = $result['jarak'];
 		$rslt[$index]['luas'] 				 = $result['luas'];
-		$rslt[$index]['kebersihan']		 = $result['kebersihan'];
 		$rslt[$index]['fasilitas']		 = $result['fasilitas'];
-		// $rslt[$index]['nk_rasa']		 = $result['nk_rasa'];
 		$rslt[$index]['nk_harga']			 = $result['nk_harga'];
 		$rslt[$index]['nk_jarak']			 = $result['nk_jarak'];
 		$rslt[$index]['nk_luas']			 = $result['nk_luas'];
-		$rslt[$index]['nk_kebersihan'] = $result['nk_kebersihan'];
 		$rslt[$index]['nk_fasilitas']	 = $result['nk_fasilitas'];
 		$rslt[$index]['ks']						 = $result['ks'];
 
@@ -178,7 +175,7 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
+	<aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
@@ -187,7 +184,7 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>Hudalloh</p>
           <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
         </div>
       </div>
@@ -205,7 +202,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="index.php">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             <span class="pull-right-container">
@@ -213,37 +210,23 @@
             </span>
           </a>
         </li>
+        <li class="treeview">
+          <a href="pages/admin/list_makanan.php">
+            <i class="fa fa-folder"></i> <span>Data Makanan</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="pages/admin/list_tempat.php">
+            <i class="fa fa-folder"></i> <span>Data Tempat Makan</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
 
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Makanan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/admin/list_makanan.php"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Tempat Makan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-folder"></i>
@@ -315,8 +298,7 @@
 						        <th >Jarak</th>
 						        <th >Jenis</th>
 						        <th >Luas</th>
-						        <th >Kebersihan</th>
-						        <th >Fasilitas</th>
+						        <!-- <th >Fasilitas</th> -->
 										<?php
 										// if($rasa!='-'){
 						        // 	echo "<th>".$rasa."</th>";
@@ -357,27 +339,23 @@
 						    				<td><?php echo km($isi[$i]['jarak']); ?></td>
 												<td><?php echo $isi[$i]['jenis']; ?></td>
 						    				<td><?php echo m2($isi[$i]['luas']); ?></td>
-						    				<td><?php echo ($isi[$i]['kebersihan']); ?></td>
-						    				<td><?php echo ($isi[$i]['fasilitas']); ?></td>
+						    				<!-- <td><?php echo ($isi[$i]['fasilitas']); ?></td> -->
 												<?php
 						    				// if($rasa!='-'){
 									      //   	echo "<td>".$isi[$i]['nk_rasa']."</td>";
 									      //   }
-									        if($harga!='-'){
-									        	echo "<td>".$isi[$i]['nk_harga']."</td>";
-									        }
-									        if($jarak!='-'){
-									        	echo "<td>".$isi[$i]['nk_jarak']."</td>";
-									        }
-									        if($luas!='-'){
-									        	echo "<td>".$isi[$i]['nk_luas']."</td>";
-									        }
-									        if($kebersihan!='-'){
-									        	echo "<td>".$isi[$i]['nk_kebersihan']."</td>";
-									        }
-									        if($fasilitas!='-'){
-									        	echo "<td>".$isi[$i]['nk_fasilitas']."</td>";
-									        }
+									        // if($harga!='-'){
+									        // 	echo "<td>".$isi[$i]['nk_harga']."</td>";
+									        // }
+									        // if($jarak!='-'){
+									        // 	echo "<td>".$isi[$i]['nk_jarak']."</td>";
+									        // }
+									        // if($luas!='-'){
+									        // 	echo "<td>".$isi[$i]['nk_luas']."</td>";
+									        // }
+									        // if($fasilitas!='-'){
+									        // 	echo "<td>".$isi[$i]['nk_fasilitas']."</td>";
+									        // }
 
 									         ?>
 						    				<td><?php echo $isi[$i]['ks']; ?></td>
@@ -412,7 +390,9 @@
 
 </div>
 <!-- ./wrapper -->
+<div class="map">
 
+</div>
 <!-- jQuery 2.2.3 -->
 <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -425,7 +405,7 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="plugins/morris/morris.min.js"></script>
+<!-- <script src="plugins/morris/morris.min.js"></script> -->
 <!-- Sparkline -->
 <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
@@ -450,5 +430,33 @@
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+<script src="dist/js/util.js"></script>
+
+<script type="text/javascript">
+	function initMap() {
+		var map = new google.maps.Map($('.map'), {
+			center: {lat: -34.397, lng: 150.644},
+			zoom: 6
+		})
+		var infoWindow = new google.maps.InfoWindow;
+
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function (position) {
+				var pos = {
+					lat: position.coords.latitude,
+					lng: position.coords.longitude
+				}
+
+				infoWindow.setPosition(pos)
+				infoWindow.setContent('Current Position')
+				infoWindow.open(map)
+				map.setCenter(pos)
+			}, function () {
+				handleLocationError(true, infoWindow, map.getCenter())
+			})
+		}
+	}
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ45tYOgqkKzl7HpmU8kiqWp6GV5iKHEk&callback=initMap"></script>
 </body>
 </html>
