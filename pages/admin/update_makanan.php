@@ -50,17 +50,7 @@
 		$gambar 	= $_POST['path_file'];
 		$harga 		= $_POST['harga'];
 
-		echo $id;
-		echo "<br>";
-		echo $kd_rmakan;
-		echo "<br>";
-		echo $rasa;
-		echo "<br>";
-		echo "nama".$nama;
-		echo "<br>";
-		echo "gambar".$gambar;
-		echo "<br>";
-		echo "harga".$harga;
+		
 		$query 		= mysql_query("UPDATE md_makanan SET KD_MAKANAN='".$id."',KD_RMAKAN='".$kd_rmakan."',KD_RASA='".$rasa."',NAMA='".$nama."',					GAMBAR='".$gambar."',HARGA='".$harga."' WHERE KD_MAKANAN='".$id."';");
 		if($query){
 			echo "<script>alert('data berhasil disimpan !');</script>";

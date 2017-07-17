@@ -199,7 +199,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        LIST TEMPAT MAKAN
+        LIST USER
         <small>rekomendasi tempat makan</small>
       </h1>
       <ol class="breadcrumb">
@@ -236,12 +236,11 @@
   								 		<th style="text-align: center" >No</th>
                       <th style="text-align: center" width="30px">Kode</th>
                       <th style="text-align: center" width="30px">Nama</th>
-  								 		<th style="text-align: center" width="100px" align="center">Username</th>
-  								 		<th style="text-align: center" width="100px" align="center">Password</th>
-  								 		<th style="text-align: center" width="300px" align="center">Alamat</th>
-  								 		<th style="text-align: center" width="50px" align="center">Telephone</th>
+  								 		<th style="text-align: center" width="80px" align="center">Username</th>
+  								 		<th style="text-align: center" width="400px" align="center">Alamat</th>
+  								 		<th style="text-align: center" width="70px" align="center">Telephone</th>
   								 		<th style="text-align: center" width="50px" align="center">Email</th>
-  								 		<th style="text-align: center" width="50px" align="center">Level</th>
+  								 		<th style="text-align: center" width="30px" align="center">Level</th>
   						        <th style="text-align: center" >Action</th>
   								 </tr>
                 </thead>
@@ -257,11 +256,14 @@
                     <td align="center"><?php echo $isi['KD_USER'] ?></td>
                     <td ><?php echo $isi['NAMA']; ?></td>
 										<td ><?php echo $isi['USERNAME']; ?></td>
-										<td ><?php echo $isi['PASSWORD']; ?></td>
 										<td ><?php echo $isi['ALAMAT']; ?></td>
 										<td ><?php echo $isi['NO_HP']; ?></td>
 										<td  ><?php echo $isi['EMAIL']; ?></td>
-										<td ><?php echo $isi['LEVEL']; ?></td>
+										<td ><?php if($isi['LEVEL']==1){
+                      echo "ADMIN";
+                      }else{
+                        echo "PEMILIK TEMPAT MAKAN";
+                        } ?></td>
                     <td align="center">
                       <a class="glyphicon glyphicon-cloud" href="detail_user.php?id=<?php echo $isi['KD_USER']; ?>" title="Detail" ></a>
                       <a class="glyphicon glyphicon-edit" href="update_user.php?id=<?php echo $isi['KD_USER']; ?>" title="Edit" ></a>

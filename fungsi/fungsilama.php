@@ -4,19 +4,6 @@
 		mysql_select_db('skripsi');
 	}
 
-	// function keanggotaan($kd_fk, $nilai, $pilihan, $status){
-	// 	$query 	= mysql_query("SELECT * FROM ".$pilihan." WHERE UPPER(status)='".strtoupper($status)."';");
-	// 	$data 	= mysql_fetch_array($query);
-
-	// 	$fk = $data['KD_FK'];
-	// 	if ($fk==1){
-	// 		$mf_linear_turun($nilai, $pilihan, $status);
-	// 	}elseif ($fk==2) {
-	// 		$mf_linear_sgt($nilai, $pilihan, $status);
-	// 	}if ($fk == 3) {
-	// 		$mf_linear_naik($nilai, $pilihan, $status);
-	// 	}
-	// }
 	function mf_linear_naik($nilai, $pilihan, $status){
 		//fungsi aktivasi linear naik
 		$query = mysql_query("SELECT * FROM ".$pilihan." WHERE UPPER(status)='".strtoupper($status)."';");
@@ -38,10 +25,9 @@
 		return $nk;
 	}
 
-
 	function mf_linear_turun($nilai, $pilihan, $status){
 		//fungsi aktivasi linear turun
-		$query = mysql_query("SELECT * FROM ".$pilihan." WHERE kd_fk='".$status."';");
+		$query = mysql_query("SELECT * FROM ".$pilihan." WHERE status='".$status."';");
 		$data = mysql_fetch_array($query);
 		$batas_bawah = $data['BATAS_BAWAH'];
 		$batas_atas = $data['BATAS_ATAS'];
@@ -139,19 +125,15 @@
 				$max = 0;
 				$min = 1;
 
-		
+
 		//cek harga
 		if($harga=='-'){
 			$nk_harga	= '-';
-		}else if($harga=='1'){
-			echo $harga."<br>";
-
-			echo $data['HARGA'];
+		}else if(strtoupper($harga)=='MURAH'){
 			$nk_harga	= mf_linear_turun($data['HARGA'], $t_harga, $harga);
 			$temp[$i]	= $nk_harga;
-			echo($nk_harga);
 			$i++;
-		}else if($harga==2){
+		}else if(strtoupper($harga)=='MENENGAH'){
 			$nk_harga	= mf_linear_sgt($data['HARGA'], $t_harga, $harga);
 			$temp[$i]	= $nk_harga;
 			$i++;
@@ -160,8 +142,7 @@
 			$temp[$i]	= $nk_harga;
 			$i++;
 		}
-		// $djarak = hit_jarak($data['KD_RMAKAN']);
-		$djarak = 4;
+		$djarak = hit_jarak($data['KD_RMAKAN']);
 
 				// cek jarak_tempuh
         if ($jarak=='-') {

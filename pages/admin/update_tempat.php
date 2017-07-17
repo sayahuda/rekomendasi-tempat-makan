@@ -4,8 +4,8 @@
 	require_once('../../fungsi/fungsi.php');
 	konek_db();
   $id = $_GET['id'];
-
-  echo $peringatan;
+  $query = mysql_query("SELECT * FROM MD_RMAKAN WHERE KD_RMAKAN=$id;");
+  $data = mysql_fetch_array($query);
 	if(isset($_POST['simpan'])){
 		$id         = $_GET['id'];
 		$kd_rmakan  = $_POST['kd_rmakan'];
@@ -15,9 +15,12 @@
     $tlp        = $_POST['tlp'];
     $luas       = $_POST['luas'];
     $lokasi     = $_POST['lokasi'];
+    $lokasi1     = $_POST['lokasi1'];
+    $tempat     = $lokasi.','.$lokasi1;
+
 
     	$query = mysql_query("UPDATE MD_RMAKAN SET KD_RMAKAN='".$kd_rmakan."', NM_RMAKAN='".$nama."', ALAMAT='".$alamat."',
-														EMAIL='".$email."', NO_TLP='".$tlp."', LUAS='".$luas."', LOKASI='".$lokasi."'
+														EMAIL='".$email."', NO_TLP='".$tlp."', LUAS='".$luas."', LOKASI='".$tempat."'
       											WHERE KD_RMAKAN=$id;");
 
 			$fst = mysql_query("SELECT * FROM FASILITAS;");
@@ -44,10 +47,10 @@
 
 		if($query){
 			echo "<script>alert('data berhasil disimpan !');</script>";
-        	echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
+      echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
 		}else{
 			echo "<script>alert('data gagal disimpan !');</script>";
-        	echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
+      echo "<meta http-equiv='refresh' content='0; url=list_tempat.php'>";
 		}
 	}
  ?>
@@ -55,36 +58,41 @@
 
  <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Dashboard</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+<?php require_once"head.php"; ?>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ45tYOgqkKzl7HpmU8kiqWp6GV5iKHEk"></script>
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-</head>
-<body class="hold-transition skin-blue sidebar-mini">
+<script type="text/javascript">
+  var peta;
+  var gambar_tanda;
+  gambar_tanda = '../asset/marker.png';
+
+  function setpeta(x,y,id){
+    // mengambil koordinat dari database
+    var lokasibaru = new google.maps.LatLng(x, y);
+    var petaoption = {
+      zoom: 17,
+      center: lokasibaru,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    peta = new google.maps.Map(document.getElementById("map_canvas"),petaoption);
+
+     // ngasih fungsi marker buat generate koordinat latitude & longitude
+    tanda = new google.maps.Marker({
+      position: lokasibaru,
+      icon: gambar_tanda,
+      draggable : true,
+      map: peta
+    });
+
+    // ketika markernya didrag, koordinatnya langsung di selipin di textfield
+    google.maps.event.addListener(tanda, 'dragend', function(event){
+        document.getElementById('latitude').value = this.getPosition().lat();
+        document.getElementById('longitude').value = this.getPosition().lng();
+    });
+  }
+</script>
+<body onload="setpeta(<?php echo $data['LOKASI']; ?>,<?php echo $id; ?>)" class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
@@ -309,7 +317,11 @@
                 </div>
   							<div class="form-group">
                   <label>Lokasi </label>
-                  <input type="text" name="lokasi" class="form-control" value="<?php echo $data['LOKASI']; ?>">
+                  <div id="map_canvas" style="width:100%; height:500px"></div>
+                  <input type="text" name="lokasi" class="form-control" ID="latitude">
+
+                  <input type="type" name="lokasi1" class="form-control" id="longitude" >
+
                 </div>
                 <div class="form-group">
 									<label>Fasilitas</label>

@@ -302,7 +302,7 @@
 								<input type="text" name="nama" class="form-control" placeholder="Nama Makanan">
 							</div>
 							<div class="form-group">
-								<label>Rasa Makanan </label>
+								<label>Tempat Makan </label>
 								<select class="form-control" name="kd_rmakan" placeholder="pilih">
 										<option value="-">Pilih Salah Satu</option>
 										<?php

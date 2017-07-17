@@ -216,6 +216,11 @@
 
       <div class="row">
       <div class="col-md-12">
+      <div class="col-md-9">
+                  <div class="control-group">
+                   <div id="map_canvas" style="width:100%; height:500px"></div>
+                  </div>
+                </div>
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Data User</h3>

@@ -272,7 +272,7 @@
 
 							<div class="form-group">
 								<label>Telephone </label>
-								<input type="text" name="tlp" class="form-control" value="<?php echo $data['NO_HP']; ?>">
+								<input type="number" name="tlp" class="form-control" value="<?php echo $data['NO_HP']; ?>">
 							</div>
 							<div class="form-group">
 								<label>Email </label>

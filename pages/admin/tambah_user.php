@@ -13,7 +13,7 @@
 		$email = $_POST['email'];
 		$level = $_POST['level'];
 		$query = mysql_query("INSERT INTO `md_user`(`KD_USER`, `NAMA`, `USERNAME`, `PASSWORD`, `ALAMAT`, `NO_HP`, `EMAIL`, `LEVEL`)
-																				VALUES ('','".$nama."','".$username."','".$password."','".$alamat."','".$tlp."','".$email."','".$level."');");
+							VALUES ('','".$nama."','".$username."','".$password."','".$alamat."','".$tlp."','".$email."','".$level."');");
 
 		if($query){
 			echo "<script>alert('data berhasil disimpan !');</script>";
@@ -275,7 +275,7 @@
 								<select class="form-control" name="level" placeholder="pilih">
 									<option value="-">Pilih Salah Satu</option>
 									<?php
-									$query = mysql_query("SELECT LEVEL FROM MD_USER;");
+									$query = mysql_query("SELECT LEVEL FROM MD_USER ORDER BY KD_USER;");
 									while($data = mysql_fetch_array($query)){
 										?>
 										<option value="<?php echo $data['LEVEL']; ?>"> <?php if ($data['LEVEL']==1){

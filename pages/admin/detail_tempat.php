@@ -6,40 +6,44 @@
   $id = $_GET['id'];
   $query = mysql_query("SELECT * FROM MD_RMAKAN WHERE KD_RMAKAN=$id;");
   $data = mysql_fetch_array($query);
+
  ?>
 
  <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Rekomendasi Tempat Makan</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+<?php require_once('head.php'); ?>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ45tYOgqkKzl7HpmU8kiqWp6GV5iKHEk"></script>
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-</head>
-<body class="hold-transition skin-blue sidebar-mini">
+<script type="text/javascript">
+  var peta;
+  var gambar_tanda;
+  gambar_tanda = '../asset/marker.png';
+  
+
+  function setpeta(x,y,id){
+    // mengambil koordinat dari database
+    var lokasibaru = new google.maps.LatLng(x, y);
+    var petaoption = {
+      zoom: 17,
+      center: lokasibaru,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    peta = new google.maps.Map(document.getElementById("map_canvas"),petaoption);
+
+     // ngasih fungsi marker buat generate koordinat latitude & longitude
+    tanda = new google.maps.Marker({
+      position: lokasibaru,
+      icon: gambar_tanda,
+      map: peta
+    });
+    
+  }
+</script>
+<?php echo $data['LOKASI']; 
+echo $id;?>
+
+<body onload="setpeta(<?php echo $data['LOKASI']; ?>,<?php echo $id; ?>)" class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
@@ -217,12 +221,20 @@
       <div class="row">
       <div class="col-md-12">
           <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title">Data Tempat Makan</h3>
+            <div class="box-header with-border" align="center">
+                <h1 class="box-title" ><b><?php echo $data['NM_RMAKAN']; ?></b></h1>
               </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <div class="col-md-6">
+              <div class="col-md-7">
+                  <div class="control-group">
+                   <div id="map_canvas" style="width:100%; height:500px"></div>
+                  </div>
+              </div>
+              <div class="col-md-5">
+                <div class="box-header with-border">
+                  <h3 class="box-title" >Detail Tempat Makan</h3>
+                </div>
                 <table id="example3" class="table table-bordered table-hover">
                   <thead >
                     <tr>
@@ -243,14 +255,6 @@
                       <td><b>Telephon </b></td>
                       <td><?php echo $data['NO_TLP']; ?></td>
                     </tr>
-                  </thead>
-                  <tbody>
-                  </tfoot>
-                </table>
-              </div>
-              <div class="col-md-6">
-                <table id="example3" class="table table-bordered table-hover">
-                  <thead >
                     <tr>
                       <td><b>Luas   </b></td>
                       <td><?php echo m2($data['LUAS']); ?></td>
@@ -259,7 +263,7 @@
                     <tr>
                       <td><b>Fasilitas  </b></td>
                       <td>
-                        <br>
+                      <br>
                         <?php
 
                         $sql= mysql_query("SELECT FASILITAS.NAMA AS NAMA, FASILITAS.KD_FASILITAS AS KD_FASILITAS, CEK_FASILITAS.KD_FASILITAS AS FASILITAS,
@@ -274,35 +278,34 @@
 
                         }
                          ?>
-
-
-
-
                       </td>
                     </tr>
                   </thead>
-                  <tbody>
-                  </tfoot>
                 </table>
               </div>
+              </div>
+              
               <!-- /.row -->
             </div>
             <!-- ./box-body -->
             <!-- /.box-footer -->
           </div>
-          <!-- /.box -->
-        </div>
-      <!-- <div class="box">
-        <div style="padding: 25px;">
-          <p align="center"><img height="200px" width="300px" src="../asset/gambar/<?php echo $data['GAMBAR']; ?>" class="img img-responsive"></p>
-
-        </div>
-      </div> -->
-
-        <div class="col-xs-12">
+          <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">List Data Makanan</h3>
+              <div class="col-xs-10">
+              <div class="box-header">
+                <h3 class="box-title"><b>List Makanan</b></h3>
+              </div>
+
+            </div>
+            <div class="col-xs-2">
+              <div class="box-header">
+                <a href="tambah_makanan.php" class="btn btn-success" style="width:150px" role="button"><i class="fa fa-plus"> <b> Tambah </b> </i></a>
+
+              </div>
+            </div>
+            <br>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -349,6 +352,10 @@
           </div>
           <!-- /.box -->
         </div>
+          <!-- /.box -->
+        </div>
+
+        
 
       </div>
 
@@ -387,14 +394,47 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- page script -->
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAbXF62gVyhJOVkRiTHcVp_BkjPYDQfH5w"></script>
+
 <script>
-    $(function(){
-        $('*[data-href]').click(function(){
-            window.location = $(this).data('href');
-            return false;
-        });
-      });
-    </script>
+
+function initialize() {
+  var myLatlng = new google.maps.LatLng(-7.7760801,110.3892547);
+  var mapOptions = {
+    zoom: 10,
+    center: myLatlng
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading"><?php echo $titles ?></h1>'+
+      '<div id="bodyContent">'+
+      '<p><?php echo $alamat ?></p>'+
+      '</div>'+
+      '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+      content: contentString
+  });
+
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: 'Maps Info',
+      icon:'img/marker.png'
+  });
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.open(map,marker);
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
 <script>
   $(function () {
     $("#example1").DataTable();

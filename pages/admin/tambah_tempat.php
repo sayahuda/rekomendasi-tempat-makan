@@ -10,17 +10,17 @@
     $alamat     = $_POST['alamat'];
     $tlp        = $_POST['tlp'];
     $lokasi     = $_POST['lokasi'];
+    $lokasi1     = $_POST['lokasi1'];
     $luas       = $_POST['luas'];
 		$email      = $_POST['email'];
+    $tempat     = $lokasi.','.$lokasi1;
     $query = mysql_query("INSERT INTO `md_rmakan`(`KD_RMAKAN`, `KD_USER`, `KD_JENIS`, `NM_RMAKAN`, `ALAMAT`, `NO_TLP`, `LUAS`, `LOKASI`, `EMAIL`)
-																				VALUES  ('', '".$kd_user."', '".$kd_jenis."', '".$nama."', '".$alamat."', '".$tlp."', '".$luas."', '".$lokasi."', '".$email."') ;");
+																				VALUES  ('', '".$kd_user."', '".$kd_jenis."', '".$nama."', '".$alamat."', '".$tlp."', '".$luas."', '".$tempat."', '".$email."') ;");
 		$kd= mysql_query("SELECT KD_RMAKAN FROM MD_RMAKAN ORDER BY KD_RMAKAN DESC LIMIT 1;");
 		$kode = mysql_fetch_array($kd);
 		$kd_rmakan = $kode['KD_RMAKAN'];
-echo $kode['KD_RMAKAN'];
     $sql = mysql_query("SELECT * FROM FASILITAS;");
     while ($data = mysql_fetch_array($sql)) {
-echo mysql_error($sql);
 			if(isset($_POST[$data['NAMA']])){
 					$query = mysql_query("INSERT INTO CEK_FASILITAS VALUES('', '".$kd_rmakan."', '".$data['KD_FASILITAS']."');");
 				}
@@ -40,36 +40,43 @@ echo mysql_error($sql);
 
  <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Dashboard</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+<?php require_once"head.php"; ?>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ45tYOgqkKzl7HpmU8kiqWp6GV5iKHEk"></script>
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-</head>
-<body class="hold-transition skin-blue sidebar-mini">
+<script type="text/javascript">
+  var peta;
+  var gambar_tanda;
+  gambar_tanda = '../asset/marker.png';
+
+  
+  function peta_awal(){
+    // posisi default peta saat diload
+      var lokasibaru = new google.maps.LatLng(-7.7760801,110.3892547);
+      var petaoption = {
+      zoom: 16,
+      center: lokasibaru,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+      peta = new google.maps.Map(document.getElementById("map_canvas"),petaoption);
+
+      // ngasih fungsi marker buat generate koordinat latitude & longitude
+      tanda = new google.maps.Marker({
+          position: lokasibaru,
+          map: peta,   
+          draggable : true
+      });
+
+      // ketika markernya didrag, koordinatnya langsung di selipin di textfield
+      google.maps.event.addListener(tanda, 'dragend', function(event){
+        document.getElementById('latitude').value = this.getPosition().lat();
+        document.getElementById('longitude').value = this.getPosition().lng();
+    });
+  }
+
+  
+</script>
+<body onload="peta_awal()" class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
@@ -301,12 +308,16 @@ echo mysql_error($sql);
                 </div>
   							<div class="form-group">
                   <label>Lokasi </label>
-                  <input type="type" name="lokasi" class="form-control" placeholder="Koordinat Lokasi" >
+
+                   <div id="map_canvas" style="width:100%; height:500px"></div>
+                  <input type="type" name="lokasi" class="form-control" placeholder="Koordinat Lokasi" id="latitude" >
+                  <input type="type" name="lokasi1" class="form-control" placeholder="Koordinat Lokasi" id="longitude" >
                 </div>
 
                 <div class="form-group">
   								<label>Fasilitas </label>
 									<br>
+
 									<?php
 									$sql= mysql_query("SELECT * FROM FASILITAS;");
 									while($data= mysql_fetch_array($sql)){

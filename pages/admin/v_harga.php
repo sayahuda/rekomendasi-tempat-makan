@@ -3,39 +3,12 @@
 	$peringatan='';
 	require_once('../../fungsi/fungsi.php');
 	konek_db();
-
 	if(isset($_POST['simpan'])){
 		//murah
-		$murah_bawah = $_POST['0'];
-		$murah_atas = $_POST['1'];
-
-		//sedang
-		$sedang_bawah = $_POST['2'];
-		$sedang_tengah = $_POST['3'];
-		$sedang_atas = $_POST['4'];
-
-		//mahal
-		$mahal_bawah = $_POST['5'];
-		$mahal_atas = $_POST['6'];
-		echo $murah_bawah;
-		
-		$sedikit = mysql_query("UPDATE V_HARGA SET BATAS_BAWAH='".$murah_bawah."', BATAS_ATAS='".$murah_atas."' WHERE KODE=1;");
-		$banyak = mysql_query("UPDATE V_HARGA SET BATAS_BAWAH='".$sedang_bawah."', BATAS_ATAS='".$sedang_atas."', BATAS_TENGAH='".$sedang_tengah."' WHERE KODE=2;");
-		$banyak = mysql_query("UPDATE V_HARGA SET BATAS_BAWAH='".$mahal_bawah."', BATAS_ATAS='".$mahal_atas."' WHERE KODE=3;");
-
+	$status =$_POST['status'];
+		$query = mysql_query("UPDATE `v_harga` SET `STATUS`='".$status."' WHERE KD_HARGA=2; ");
 
 	}
-	if(isset($_POST['set'])){
-		$status1 	= $_POST['10'];
-		$status2 	= $_POST['11'];
-		$status3 	= $_POST['12'];
-
-		$query = mysql_query("UPDATE V_HARGA SET STATUS='".$status1."' WHERE KODE=1;");
-		$query = mysql_query("UPDATE V_HARGA SET STATUS='".$status2."' WHERE KODE=2;");
-		$query = mysql_query("UPDATE V_HARGA SET STATUS='".$status3."' WHERE KODE=3;");
-
-	}
-
 
 
 
@@ -252,64 +225,21 @@
 				<div class="col-md-12">
 					<div class="panel panel-default">
 						<div class="panel-body">
-							<form method="post" action="#">
+							<form method="post" action="harga.php">
 							<div class="row">
 								<?php
-									$query = mysql_query("SELECT * FROM V_HARGA;");
-									$a=10;
-									$i=1;
-									while ($data = mysql_fetch_array($query)) {
-
-								 ?>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>Status <?php echo $i; ?> </label>
-										<input type="text" class="form-control" name=<?php echo $a;?> value=<?php echo $data['STATUS']; ?>> 
-										<?php $i++; $a++; ?>
-										<select name="kode">	
-												<option value="-">pilih salah satu</option>
-												<option value="-"><?php echo $data['KODE']; ?></option>
-											</select>
-									</div>
-								</div>
-								<?php } ?>
-							</div>
-							<div class="form-group">
-								<button class="btn btn-danger" style="width: 100%;" name="set" >Simpan</button>
-							</div>
-							</form>
-						</div>
-
-						<div class="panel-body">
-							<form method="post" action="#">
-							<div class="row">
-								<?php
-									$query = mysql_query("SELECT * FROM V_HARGA;");
+									$query = mysql_query("SELECT * FROM V_HARGA ;");
 									$i=0;
 									while ($data = mysql_fetch_array($query)) {
 
 								 ?>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label align="center"><?php echo $data['STATUS']; ?> :</label>
 										<hr>
-										<p>Batas Bawah  :</p>
-										<input type="number" class="form-control" name=<?php echo $i; ?> value=<?php echo $data['BATAS_BAWAH']; ?>>
-										<?php $i++; ?>
-										<hr>
-										<?php if($data['BATAS_TENGAH']!=null){
-											?>
-
-										<p>Batas Tengah  :</p>
-										<input type="number" class="form-control" name=<?php echo $i; ?> value=<?php echo $data['BATAS_TENGAH']; ?>>
-										<?php $i++; ?>
-										<hr>
-
-											<?php
-											} ?>
-										<p>Batas Atas  :</p>
-										<input type="number" class="form-control" name= <?php echo $i; ?> value=<?php echo $data['BATAS_ATAS']; ?>>
-										<?php $i++; ?>
+										<p>Status  :</p>
+										<input type="text" class="form-control" name='status' value=<?php echo $data['STATUS']; ?>>
+										
+										
 
 									</div>
 								</div>
@@ -322,47 +252,7 @@
 						</div>
 					</div>
 
-					<div class="panel panel-default">
-					<div class="panel-heading"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"></use></svg>Batas Untuk Harga Makanan:</div>
-					<div class="panel-body">
-						<div class="row" style="padding: 20px;">
-							 <table class="table table-bordered">
-								 <tr>
-								 	<th>Status</th>
-								 	<th>Batas Bawah</th>
-								 	<th>Batas Tengah</th>
-								 	<th>Batas Atas</th>
-								 </tr>
-								<?php
-								$sql = mysql_query("SELECT * FROM V_HARGA;");
-								while ($isi = mysql_fetch_array($sql)) {
-									?>
-									<tr>
-										<td><?php echo $isi['STATUS']; ?></td>
-										<td><?php echo rp($isi['BATAS_BAWAH']); ?></td>
-										<?php if ($isi['BATAS_TENGAH']==null){
-
-											?>
-											<td><?php echo "NULL"; ?></td>
-											<?php 
-											}else {
-												?>
-											<td><?php echo rp($isi['BATAS_TENGAH']); ?></td>
-											<?php	
-											} ?>
-										
-										<td><?php echo rp($isi['BATAS_ATAS']); ?></td>
-									</tr>
-									<?php
-								}
-
-							 ?>
-
-							 </table>
-
-						</div>
-					</div>
-				</div>
+					
 
 				</div>
 

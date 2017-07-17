@@ -314,7 +314,7 @@
     							<div class="col-md-6">
 
     								<div class="form-group">
-    									<p>Rasa Makanan :</p>
+    									<p>Jenis Makanan :</p>
     									<select class="form-control" name="rasa">
     										<option value="-"></option>
     										<?php
@@ -346,10 +346,10 @@
     									<select class="form-control" name="harga">
     										<option value="-"></option>
     										<?php
-    											$query = mysql_query("SELECT status FROM v_harga;");
+    											$query = mysql_query("SELECT * FROM v_harga;");
     											while($data = mysql_fetch_array($query)){
     										 ?>
-    										<option value="<?php echo $data['status']; ?>" > <?php echo $data['status']; ?> </option>
+    										<option value="1" > <?php echo $data['STATUS']; ?> </option>
     										<?php } ?>
 
     									</select>
