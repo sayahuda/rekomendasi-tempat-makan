@@ -9,7 +9,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Dashboard</title>
+  <title>Rekomendasi Tempat Makan</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -61,56 +61,6 @@
         <span class="sr-only">Toggle navigation</span>
       </a>
 
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
-                <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          <!-- <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li> -->
-        </ul>
-      </div>
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
@@ -120,24 +70,15 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <!-- <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> -->
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>Hudalloh</p>
           <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
         </div>
+        <br>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+      
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
@@ -149,51 +90,30 @@
             </span>
           </a>
         </li>
+        <li class="treeview">
+          <a href="pages/admin/list_makanan.php">
+            <i class="fa fa-folder"></i> <span>Data Makanan</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="pages/admin/list_tempat.php">
+            <i class="fa fa-folder"></i> <span>Data Tempat Makan</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
 
         <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Makanan</span>
+          <a href="pages/admin/list_user.php">
+            <i class="fa fa-folder"></i> <span>Data User</span>
             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
             </span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/admin/list_makanan.php"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data Tempat Makan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i>
-            <span>Data User</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-          </ul>
         </li>
         <li class="treeview">
           <a href="#">
@@ -204,10 +124,10 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-            <li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-            <li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
+            <li><a href="pages/admin/harga.php"><i class="fa fa-archive"></i> Harga</a></li>
+            <li><a href="pages/admin/fasilitas.php"><i class="fa fa-archive"></i> Fasilitas</a></li>
+            <li><a href="pages/admin/jarak.php"><i class="fa fa-archive"></i> Jarak</a></li>
+            <li><a href="pages/admin/luas.php"><i class="fa fa-archive"></i> Luas</a></li>
           </ul>
         </li>
       </ul>
@@ -254,6 +174,7 @@
         <!-- ./col -->
         <div class="col-lg-4 col-xs-6">
           <!-- small box -->
+
           <div class="small-box bg-green">
             <div class="inner">
               <h3><?php
@@ -290,12 +211,31 @@
             <div class="icon">
               <i class="ion ion-person-add" ></i>
             </div>
-            <a href="#" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="pages/admin/list_user.php" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
       </div>
 
+      <!-- MAP -->
+
+      <!-- <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="col-xs-10">
+              <div class="box-header">
+                <h3 class="box-title">Lokasi</h3>
+              </div>
+
+            </div>
+            <div class="box-body">
+                <?php   ; ?>
+            </div>
+           
+          </div>
+        </div>
+
+      </div> -->
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
@@ -312,14 +252,19 @@
               <form method="post" action="proses.php">
     						<div class="row">
     							<div class="col-md-6">
+                      
+                    <input type="hidden" id="latitude">
+                     <input type="hidden" id="longitude">
 
+                       <input type="hidden" align="center" placeholder="Menunggu permintaan lokasi" name="asal" id="asal" size="40" class="form-control" readonly="readonly" required/>
+            
     								<div class="form-group">
     									<p>Jenis Makanan :</p>
     									<select class="form-control" name="rasa">
-    										<option value="-"></option>
+    										<option value="-" >--Silahkan Pilih Salah Satu--</option>
     										<?php
     										$query = mysql_query("SELECT MD_MAKANAN.KD_RASA AS KD_RASA, V_RASA.KD_RASA AS RASA, V_RASA.NAMA AS NAMA
-													FROM V_RASA JOIN MD_MAKANAN ON MD_MAKANAN.KD_RASA=V_RASA.KD_RASA ;");
+													FROM V_RASA JOIN MD_MAKANAN ON MD_MAKANAN.KD_RASA=V_RASA.KD_RASA GROUP BY MD_MAKANAN.KD_RASA;");
     										while($data = mysql_fetch_array($query)){
     											?>
     											<option value="<?php echo $data['KD_RASA']; ?>"> <?php echo $data['NAMA']; ?> </option>
@@ -330,9 +275,10 @@
     								<div class="form-group">
     									<p>Jenis Tempat Makan :</p>
     									<select class="form-control" name="jenis">
-    										<option value="-"></option>
+    										<option value="-">--Silahkan Pilih Salah Satu--</option>
     										<?php
-    										$query = mysql_query("SELECT * FROM JENIS_RM;");
+    										$query = mysql_query("SELECT MD_RMAKAN.KD_JENIS AS KD_JENIS, JENIS_RM.JENIS AS JENIS
+                         FROM MD_RMAKAN JOIN JENIS_RM ON MD_RMAKAN.KD_JENIS=JENIS_RM.KD_JENIS GROUP BY MD_RMAKAN.KD_JENIS ;");
     										while($data = mysql_fetch_array($query)){
     											?>
     											<option value="<?php echo $data['KD_JENIS']; ?>"> <?php echo $data['JENIS']; ?> </option>
@@ -344,12 +290,12 @@
     								<div class="form-group">
     									<p>Harga Makanan :</p>
     									<select class="form-control" name="harga">
-    										<option value="-"></option>
+    										<option value="-">--Silahkan Pilih Salah Satu--</option>
     										<?php
     											$query = mysql_query("SELECT * FROM v_harga;");
     											while($data = mysql_fetch_array($query)){
     										 ?>
-    										<option value="1" > <?php echo $data['STATUS']; ?> </option>
+    										<option value="<?php  echo $data['KD_FK']; ?>" > <?php echo $data['STATUS']; ?> </option>
     										<?php } ?>
 
     									</select>
@@ -359,12 +305,12 @@
     								<div class="form-group">
     									<p>Jarak Tempat Makan :</p>
     									<select class="form-control" name="jarak">
-    										<option value="-"></option>
+    										<option value="-">--Silahkan Pilih Salah Satu--</option>
     										<?php
-    											$query = mysql_query("SELECT status FROM v_jarak;");
+    											$query = mysql_query("SELECT * FROM v_jarak;");
     											while($data = mysql_fetch_array($query)){
     										 ?>
-    										<option value="<?php echo $data['status']; ?>" > <?php echo $data['status']; ?> </option>
+    										<option value="<?php echo $data['KD_FK']; ?>" > <?php echo $data['STATUS']; ?> </option>
     										<?php } ?>
 
     									</select>
@@ -376,12 +322,12 @@
     								<div class="form-group">
     									<p>Luas Tempat Makan :</p>
     									<select class="form-control" name="luas">
-    										<option value="-"></option>
+    										<option value="-">--Silahkan Pilih Salah Satu--</option>
     										<?php
-    											$query = mysql_query("SELECT status FROM v_luas;");
+    											$query = mysql_query("SELECT * FROM v_luas;");
     											while($data = mysql_fetch_array($query)){
     										 ?>
-    										<option value="<?php echo $data['status']; ?>" > <?php echo $data['status']; ?> </option>
+    										<option value="<?php echo $data['KD_FK']; ?>" > <?php echo $data['STATUS']; ?> </option>
     										<?php } ?>
 
     									</select>
@@ -390,12 +336,12 @@
     								<div class="form-group">
     									<p>Fasilitas Tempat Makan :</p>
     									<select class="form-control" name="fasilitas">
-    										<option value="-"></option>
+    										<option value="-">--Silahkan Pilih Salah Satu--</option>
     										<?php
-    											$query = mysql_query("SELECT status FROM v_fasilitas;");
+    											$query = mysql_query("SELECT * FROM v_fasilitas;");
     											while($data = mysql_fetch_array($query)){
     										 ?>
-    										<option value="<?php echo $data['status']; ?>" > <?php echo $data['status']; ?> </option>
+    										<option value="<?php echo $data['KD_FK']; ?>" > <?php echo $data['STATUS']; ?> </option>
     										<?php } ?>
 
     									</select>
@@ -409,10 +355,10 @@
     									</select>
     								</div>
     								<div class="form-group">
-    									<button type="reset" class="btn btn-danger" style="width: 100%;">reset</button>
+    									<button type="reset" class="btn btn-danger" style="width: 100%;">Reset</button>
     								</div>
     								<div class="form-group">
-    									<button type="submit" class="btn btn-danger" style="width: 100%;">Lihat Makanan</button>
+    									<button type="submit" class="btn btn-danger" style="width: 100%;">Lihat Rekomendasi</button>
     								</div>
     							</div>
     						</div>
@@ -478,5 +424,26 @@
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+
+<script>
+    var latitude = document.getElementById('latitude');
+    var longitude = document.getElementById('longitude');
+    var asal = document.getElementById('asal');
+
+    if (navigator.geolocation) {
+      function onSuccess(position){
+        latitude.value = position.coords.latitude;
+        longitude.value = position.coords.longitude;
+        asal.value = latitude.value.concat(', ').concat(longitude.value);
+      }
+      function onError(error) {
+        alert("Error : " + error.code + ", Message: " + error.message);
+      }
+
+      navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    } else {
+      alert("Browser Tidak Suport");
+    }
+</script>
 </body>
 </html>

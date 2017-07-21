@@ -4,22 +4,11 @@
 		mysql_select_db('skripsi');
 	}
 
-	// function keanggotaan($kd_fk, $nilai, $pilihan, $status){
-	// 	$query 	= mysql_query("SELECT * FROM ".$pilihan." WHERE UPPER(status)='".strtoupper($status)."';");
-	// 	$data 	= mysql_fetch_array($query);
-
-	// 	$fk = $data['KD_FK'];
-	// 	if ($fk==1){
-	// 		$mf_linear_turun($nilai, $pilihan, $status);
-	// 	}elseif ($fk==2) {
-	// 		$mf_linear_sgt($nilai, $pilihan, $status);
-	// 	}if ($fk == 3) {
-	// 		$mf_linear_naik($nilai, $pilihan, $status);
-	// 	}
-	// }
 	function mf_linear_naik($nilai, $pilihan, $status){
+
 		//fungsi aktivasi linear naik
-		$query = mysql_query("SELECT * FROM ".$pilihan." WHERE UPPER(status)='".strtoupper($status)."';");
+		// $query = mysql_query("SELECT * FROM ".$pilihan." WHERE UPPER(status)='".strtoupper($status)."';");
+		$query = mysql_query("SELECT * FROM ".$pilihan." WHERE KD_FK=$status;");
 		$data = mysql_fetch_array($query);
 		$batas_bawah = $data['BATAS_BAWAH'];
 		$batas_atas = $data['BATAS_ATAS'];
@@ -38,10 +27,10 @@
 		return $nk;
 	}
 
-
 	function mf_linear_turun($nilai, $pilihan, $status){
 		//fungsi aktivasi linear turun
-		$query = mysql_query("SELECT * FROM ".$pilihan." WHERE kd_fk='".$status."';");
+		// $query = mysql_query("SELECT * FROM ".$pilihan." WHERE upper(status)='".strtoupper($status)."';");
+		$query = mysql_query("SELECT * FROM ".$pilihan." WHERE KD_FK=$status;");
 		$data = mysql_fetch_array($query);
 		$batas_bawah = $data['BATAS_BAWAH'];
 		$batas_atas = $data['BATAS_ATAS'];
@@ -61,7 +50,8 @@
 
 	function mf_linear_sgt($nilai, $pilihan, $status){
 		//fungsi aktivasi linear segitiga
-		$query = mysql_query("SELECT * FROM ".$pilihan." WHERE upper(status)='".strtoupper($status)."';");
+		// $query = mysql_query("SELECT * FROM ".$pilihan." WHERE upper(status)='".strtoupper($status)."';");
+		$query = mysql_query("SELECT * FROM ".$pilihan." WHERE KD_FK=$status;");
 		$data = mysql_fetch_array($query);
 
 		$batas_bawah = $data['BATAS_BAWAH'];
@@ -80,6 +70,7 @@
 
 		return $nk;
 	}
+		// echo $from;
 	function hit_jarak($KD_RMAKAN){
 		$query = mysql_query("SELECT LOKASI FROM MD_RMAKAN WHERE KD_RMAKAN='".$KD_RMAKAN."' ;");
 		$data = mysql_fetch_array($query);
@@ -111,7 +102,7 @@
 		return $data_fasilitas;
 	}
 
-	function lihat_hasil($rasa, $jenis, $harga, $jarak, $luas, $fasilitas, $operator){
+	function lihat_hasil( $rasa, $jenis, $harga, $jarak, $luas, $fasilitas, $operator){
 		if($rasa=='-' && $jenis=='-'){
 		$sql = mysql_query("SELECT MD_MAKANAN.KD_MAKANAN AS KD_MAKANAN, MD_RMAKAN.KD_RMAKAN AS KD_RMAKAN, MD_MAKANAN.NAMA AS NAMA,
 			MD_MAKANAN.KD_RASA AS RASA, MD_MAKANAN.HARGA AS HARGA, MD_RMAKAN.KD_JENIS AS KD_JENIS, MD_RMAKAN.LUAS AS LUAS
@@ -126,12 +117,12 @@
 				FROM MD_MAKANAN JOIN MD_RMAKAN ON MD_MAKANAN.KD_RMAKAN=MD_RMAKAN.KD_RMAKAN WHERE KD_RASA='$rasa' OR KD_JENIS='$jenis';");
 		}
 
-		if($harga!='' && $jarak!='' && $luas!=''  && $fasilitas!='' && $operator!=''){
+		if( $harga!='' && $jarak!='' && $luas!=''  && $fasilitas!='' && $operator!=''){
 			while($data = mysql_fetch_array($sql)){
 				$t_harga	    = 'v_harga';
 				$t_jarak	    = 'v_jarak';
 				$t_fasilitas	= 'v_fasilitas';
-				$t_luas	      = 'v_luas';
+				$t_luas	     	= 'v_luas';
 
 				$i = 0;
 				$temp;
@@ -139,17 +130,12 @@
 				$max = 0;
 				$min = 1;
 
-		
 		//cek harga
 		if($harga=='-'){
 			$nk_harga	= '-';
-		}else if($harga=='1'){
-			echo $harga."<br>";
-
-			echo $data['HARGA'];
+		}else if($harga==1){
 			$nk_harga	= mf_linear_turun($data['HARGA'], $t_harga, $harga);
 			$temp[$i]	= $nk_harga;
-			echo($nk_harga);
 			$i++;
 		}else if($harga==2){
 			$nk_harga	= mf_linear_sgt($data['HARGA'], $t_harga, $harga);
@@ -160,18 +146,18 @@
 			$temp[$i]	= $nk_harga;
 			$i++;
 		}
-		// $djarak = hit_jarak($data['KD_RMAKAN']);
-		$djarak = 4;
+		// $djarak = hit_jarak($data['KD_RMAKAN'], $from);
+		$djarak = 1;
 
 				// cek jarak_tempuh
         if ($jarak=='-') {
           $nk_jarak = '-';
-        }else if($jarak=='dekat'){
+        }else if($jarak==1){
           $nk_jarak = mf_linear_turun($djarak, $t_jarak, $jarak);
 
           $temp[$i] = $nk_jarak;
           $i++;
-        }elseif ($jarak=='sedang') {
+        }elseif ($jarak==2) {
           $nk_jarak = mf_linear_sgt($djarak, $t_jarak, $jarak);
 
           $temp[$i] = $nk_jarak;
@@ -184,12 +170,12 @@
         //cek luas
         if ($luas=='-') {
           $nk_luas = '-';
-        }elseif (strtoupper($luas)=='SEMPIT') {
+        }elseif ($luas==1) {
           $nk_luas = mf_linear_turun($data['LUAS'], $t_luas, $luas);
 
           $temp[$i] = $nk_luas;
           $i++;
-        }elseif (strtoupper($luas)=='SEDANG') {
+        }elseif ($luas==2) {
           $nk_luas = mf_linear_sgt($data['LUAS'], $t_luas, $luas);
 
           $temp[$i] = $nk_luas;
@@ -207,11 +193,11 @@
         //cek fasilitas
         if ($fasilitas=='-') {
           $nk_fasilitas ='-';
-        }elseif (strtoupper($fasilitas)=='SEDIKIT') {
+        }elseif ($fasilitas==1) {
           $nk_fasilitas = mf_linear_turun($jumlah_fasilitas, $t_fasilitas, $fasilitas);
           $temp[$i] = $nk_fasilitas;
           $i++;
-        }elseif (strtoupper($fasilitas)=='SEDANG') {
+        }elseif ($fasilitas==2) {
           $nk_fasilitas = mf_linear_sgt($jumlah_fasilitas, $t_fasilitas, $fasilitas);
           $temp[$i] = $nk_fasilitas;
           $i++;

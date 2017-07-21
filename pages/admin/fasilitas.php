@@ -3,69 +3,46 @@
 	$peringatan='';
 	require_once('../../fungsi/fungsi.php');
 	konek_db();
+		error_reporting(0);
+	$tabel ="V_FASILITAS";
 
 	if(isset($_POST['simpan'])){
-			//murah
-			$murah_bawah = $_POST['0'];
-			$murah_atas = $_POST['1'];
+		$status=$_POST['status'];
+		//1
+		$bawah1 = $_POST['0'];
 
-			//sedang
-			$sedang_bawah = $_POST['2'];
-			$sedang_tengah = $_POST['3'];
-			$sedang_atas = $_POST['4'];
+		$tengah1 = $_POST['1'];
 
-			//mahal
-			$mahal_bawah = $_POST['5'];
-			$mahal_atas = $_POST['6'];
+		$atas1 = $_POST['2'];
 
-			$sedikit = mysql_query("UPDATE V_FASILITAS SET BATAS_BAWAH='".$murah_bawah."', BATAS_ATAS='".$murah_atas."' WHERE status='sedikit';");
-			$banyak = mysql_query("UPDATE V_FASILITAS SET BATAS_BAWAH='".$sedang_bawah."', BATAS_ATAS='".$sedang_atas."', BATAS_TENGAH='".$sedang_tengah."' WHERE status='sedang';");
-			$banyak = mysql_query("UPDATE V_FASILITAS SET BATAS_BAWAH='".$mahal_bawah."', BATAS_ATAS='".$mahal_atas."' WHERE status='banyak';");
+		//2
+		$bawah2 = $_POST['3'];
+		$tengah2 = $_POST['4'];
+		$atas2 = $_POST['5'];
 
-		}
-
-
-
+		//3
+		$bawah3 = $_POST['6'];
+		$tengah3 = $_POST['7'];
+		$atas3 = $_POST['8'];
+		
+		$query1 = mysql_query("UPDATE '".$tabel."' SET STATUS='".$status."', BATAS_BAWAH='".$bawah1."', BATAS_ATAS='".$atas1."', BATAS_TENGAH='".$tengah1."' WHERE KD_FK=1;");
+		$query2 = mysql_query("UPDATE '".$tabel."' SET STATUS='".$status."', BATAS_BAWAH='".$bawah2."', BATAS_ATAS='".$atas2."', BATAS_TENGAH='".$tengah2."' WHERE KD_FK=2;");
+		$query3 = mysql_query("UPDATE '".$tabel."' SET STATUS='".$status."', BATAS_BAWAH='".$bawah3."', BATAS_ATAS='".$atas3."', BATAS_TENGAH='".$tengah3."' WHERE KD_FK=3;");
+	}
+	
  ?>
 
 
  <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Dashboard</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+<?php 	require_once"head.php"; ?>
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-</head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index.php" class="logo">
+    <a href="../../index.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>R</b>TM</span>
       <!-- logo for regular state and mobile devices -->
@@ -78,145 +55,77 @@
         <span class="sr-only">Toggle navigation</span>
       </a>
 
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
-                <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          <!-- <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li> -->
-        </ul>
-      </div>
+    
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-	<aside class="main-sidebar">
-		<!-- sidebar: style can be found in sidebar.less -->
-		<section class="sidebar">
-			<!-- Sidebar user panel -->
-			<div class="user-panel">
-				<div class="pull-left image">
-					<img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-				</div>
-				<div class="pull-left info">
-					<p>Hudalloh</p>
-					<!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
-				</div>
-			</div>
-			<!-- search form -->
-			<form action="#" method="get" class="sidebar-form">
-				<div class="input-group">
-					<input type="text" name="q" class="form-control" placeholder="Search...">
-							<span class="input-group-btn">
-								<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-								</button>
-							</span>
-				</div>
-			</form>
-			<!-- /.search form -->
-			<!-- sidebar menu: : style can be found in sidebar.less -->
-			<ul class="sidebar-menu">
-				<li class="header">MAIN NAVIGATION</li>
-				<li class="treeview">
-					<a href="../../index.php">
-						<i class="fa fa-dashboard"></i> <span>Dashboard</span>
-						<span class="pull-right-container">
-							<!-- <i class="fa fa-angle-left pull-right"></i> -->
-						</span>
-					</a>
-				</li>
-				<li class="treeview">
-					<a href="list_makanan.php">
-						<i class="fa fa-folder"></i> <span>Data Makanan</span>
-						<span class="pull-right-container">
-							<!-- <i class="fa fa-angle-left pull-right"></i> -->
-						</span>
-					</a>
-				</li>
-				<li class="treeview">
-					<a href="list_tempat.php">
-						<i class="fa fa-folder"></i> <span>Data Tempat Makan</span>
-						<span class="pull-right-container">
-							<!-- <i class="fa fa-angle-left pull-right"></i> -->
-						</span>
-					</a>
-				</li>
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        
+        <div class="pull-center info">
+          <p>Hudalloh</p>
+          <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
+        </div>
+        <br>
+      </div>
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="treeview">
+          <a href="../../index.php">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="list_makanan.php">
+            <i class="fa fa-folder"></i> <span>Data Makanan</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
+        <li class=" treeview">
+          <a href="list_tempat.php">
+            <i class="fa fa-folder"></i> <span>Data Tempat Makan</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
 
-				<li class="treeview">
-					<a href="#">
-						<i class="fa fa-folder"></i>
-						<span>Data User</span>
-						<span class="pull-right-container">
-							<i class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-					<ul class="treeview-menu">
-						<li><a href="#"><i class="fa fa-archive"></i> Lihat</a></li>
-						<li><a href="#"><i class="fa fa-plus"></i> Tambah</a></li>
-						<li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
-						<li><a href="#"><i class="fa fa-trash"></i> Delete</a></li>
-					</ul>
-				</li>
-				<li class="treeview">
-					<a href="#">
-						<i class="fa fa-pie-chart"></i>
-						<span>Parameter</span>
-						<span class="pull-right-container">
-							<i class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-					<ul class="treeview-menu">
-						<li><a href="harga.php"><i class="fa fa-archive active" ></i> Harga</a></li>
-						<li><a href="HARGA.php"><i class="fa fa-archive"></i> HARGA</a></li>
-						<li><a href="luas.php"><i class="fa fa-archive"></i> Luas</a></li>
-						<li><a href="fasilitas.php"><i class="fa fa-archive"></i> Jumlah Fasilitas</a></li>
-					</ul>
-				</li>
-			</ul>
-		</section>
-		<!-- /.sidebar -->
-	</aside>
+        <li class="treeview">
+          <a href="list_user.php">
+            <i class="fa fa-folder"></i> <span>Data User</span>
+            <span class="pull-right-container">
+              <!-- <i class="fa fa-angle-left pull-right"></i> -->
+            </span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-pie-chart"></i>
+            <span>Parameter</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="harga.php"><i class="fa fa-archive"></i> Harga</a></li>
+            <li><a href="fasilitas.php"><i class="fa fa-archive"></i> Fasilitas</a></li>
+            <li><a href="jarak.php"><i class="fa fa-archive"></i> Jarak</a></li>
+            <li><a href="luas.php"><i class="fa fa-archive"></i> Luas</a></li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -227,8 +136,8 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="../index.php"><i class="fa fa-dashboard" class="active"></i> Home</a></li>
-        <li><a href="fasilitas.php">Variabel Jumlah Fasilitas</a></li>
-        <li class="active">Fasilitas</li>
+        <li><a href="fasilitas.php">Variabel Fasilitas</a></li>
+        <li class="active">Harga</li>
       </ol>
     </section>
 
@@ -238,35 +147,52 @@
       <div class="row">
 				<div class="col-md-12">
 					<div class="panel panel-default">
+
 						<div class="panel-body">
-							<form method="post" action="#">
+							<form method="post" action="#" id="fx">
 							<div class="row">
 								<?php
-									$query = mysql_query("SELECT * FROM V_FASILITAS;");
+									$query = mysql_query("SELECT $tabel.KD_FK AS KD_FK, $tabel.BATAS_BAWAH AS BATAS_BAWAH, $tabel.BATAS_TENGAH
+									AS BATAS_TENGAH, $tabel.BATAS_ATAS AS BATAS_ATAS, $tabel.STATUS AS STATUS, FUNGSI_KEANGGOTAAN.KODE AS KODE,
+									FUNGSI_KEANGGOTAAN.NAMA AS NAMA FROM $tabel JOIN FUNGSI_KEANGGOTAAN ON $tabel.KD_FK=FUNGSI_KEANGGOTAAN.KODE;");
 									$i=0;
 									while ($data = mysql_fetch_array($query)) {
 
 								 ?>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label align="center"><?php echo $data['STATUS']; ?> :</label>
+
+										<label align="center">Himpunan </label>
+										<input type="text" class="form-control" name="status" value="<?php echo $data['STATUS']; ?>">
+
 										<hr>
+										<p>	Pilih Fungsi Keanggotaan</p>
+										<select name="fN_keanggotaan" id="<?php echo "p".$data['KD_FK']; ?>" class="form-control" onchange="<?php echo "cek_".$data['KD_FK']."();"; ?>">	
+
+												<option value="<?php echo "l".$data['KD_FK']; ?>"><?php echo $data['NAMA'] ?></option>
+										<?php 	$sql= mysql_query("SELECT * FROM FUNGSI_KEANGGOTAAN ;");
+												while ($dt= mysql_fetch_array($sql)) {?>
+												 	
+												<option value="<?php echo "l".$dt['KODE']; ?>"><?php 	echo $dt['NAMA']; ?></option>
+												
+												 <?php } ?>
+										</select>
+										<hr>
+										<!-- <div>	
+            							<canvas id="myChart" width="100" height="100"></canvas>
+										</div>
+            							<hr> -->
 										<p>Batas Bawah  :</p>
-										<input type="number" class="form-control" name=<?php echo $i; ?> value=<?php echo $data['BATAS_BAWAH']; ?>>
+										<input type="number" disabled id="<?php echo "f".$i; ?>" class="form-control" name=<?php echo $i; ?> value=<?php echo $data['BATAS_BAWAH']; ?>>
 										<?php $i++; ?>
-										<hr>
-										<?php if($data['BATAS_TENGAH']!=null){
-											?>
 
+										<hr>
 										<p>Batas Tengah  :</p>
-										<input type="number" class="form-control" name=<?php echo $i; ?> value=<?php echo $data['BATAS_TENGAH']; ?>>
-										<?php $i++; ?>
+										<input type="text" disabled id="<?php echo "f".$i; ?>" class="form-control" name=<?php echo $i; ?> value=<?php 	echo $data['BATAS_TENGAH']; ?>>
+										<?php 	$i++; ?>
 										<hr>
-
-											<?php
-											} ?>
-										<p>Batas Atas  :</p>
-										<input type="number" class="form-control" name= <?php echo $i; ?> value=<?php echo $data['BATAS_ATAS']; ?>>
+										<p>Batas Atas  :</p> 
+										<input type="number"  disabled id="<?php echo "f".$i; ?>" class="form-control" name= <?php echo $i; ?> value=<?php echo $data['BATAS_ATAS']; ?>>
 										<?php $i++; ?>
 
 									</div>
@@ -281,35 +207,47 @@
 					</div>
 
 					<div class="panel panel-default">
-						<div class="panel-body">
-							<div class="row" style="padding: 20px;">
-								 <table class="table table-bordered">
-									 <tr>
-									 	<th>Status</th>
-									 	<th>Batas Bawah</th>
-									 	<th>Batas Tengah</th>
-									 	<th>Batas Atas</th>
-									 </tr>
+					<div class="panel-heading"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"></use></svg>Batas Untuk Harga Makanan:</div>
+					<div class="panel-body">
+						<div class="row" style="padding: 20px;">
+							 <table class="table table-bordered">
+								 <tr>
+								 	<th>Status</th>
+								 	<th>Batas Bawah</th>
+								 	<th>Batas Tengah</th>
+								 	<th>Batas Atas</th>
+								 </tr>
+								<?php
+								$sql = mysql_query("SELECT * FROM $tabel;");
+								while ($isi = mysql_fetch_array($sql)) {
+									?>
+									<tr>
+										<td><?php echo $isi['STATUS']; ?></td>
+										<td><?php echo rp($isi['BATAS_BAWAH']); ?></td>
+										<?php if ($isi['BATAS_TENGAH']==null){
+
+											?>
+											<td><?php echo "NULL"; ?></td>
+											<?php 
+											}else {
+												?>
+											<td><?php echo rp($isi['BATAS_TENGAH']); ?></td>
+											<?php	
+											} ?>
+										
+										<td><?php echo rp($isi['BATAS_ATAS']); ?></td>
+									</tr>
 									<?php
-									$sql = mysql_query("SELECT * FROM V_FASILITAS;");
-									while ($isi = mysql_fetch_array($sql)) {
-										?>
-										<tr>
-											<td><?php echo $isi['STATUS']; ?></td>
-											<td><?php echo k($isi['BATAS_BAWAH']); ?></td>
-											<td><?php echo k($isi['BATAS_TENGAH']); ?></td>
-											<td><?php echo k($isi['BATAS_ATAS']); ?></td>
-										</tr>
-										<?php
-									}
+								}
 
-								 ?>
+							 ?>
 
-								 </table>
+							 </table>
 
-							</div>
 						</div>
 					</div>
+				</div>
+
 				</div>
 
       </div>
@@ -333,6 +271,7 @@
 
 <!-- jQuery 2.2.3 -->
 <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../plugins/chartjs/chart.bundle.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="../../bootstrap/js/bootstrap.min.js"></script>
 <!-- DataTables -->
@@ -368,5 +307,110 @@
     });
   });
 </script>
+
+<script type="text/javascript">
+	function cek_1(){
+		if(fx.p1.value=='l1'){
+			fx.f0.disabled=false;
+			fx.f1.disabled=true;
+			fx.f1.value='-';
+			fx.f2.disabled=false;
+		}else if (fx.p1.value=='l2') {
+			fx.f0.disabled=false;
+			fx.f1.disabled=false;
+			fx.f2.disabled=false;
+		}else if (fx.p1.value=='l3') {
+			fx.f0.disabled=false;
+			fx.f1.disabled=true;
+			fx.f1.value='-';
+			fx.f2.disabled=false;
+		}else{
+			fx.f0.disabled=false;
+			fx.f1.disabled=true;
+			fx.f2.disabled=false;
+		}
+	}
+	function cek_2(){
+		if(fx.p2.value=='l1'){
+			fx.f3.disabled=false;
+			fx.f4.disabled=true;
+			fx.f4.value='-';
+			fx.f5.disabled=false;
+		}else if (fx.p2.value=='l2') {
+			fx.f3.disabled=false;
+			fx.f4.disabled=false;
+			fx.f5.disabled=false;
+		}else if (fx.p2.value=='l3') {
+			fx.f3.disabled=false;
+			fx.f4.disabled=true;
+			fx.f5.value='-';
+			fx.f6.disabled=false;
+		}else{
+			fx.f3.disabled=true;
+			fx.f4.disabled=true;
+			fx.f5.disabled=true;
+		}
+	}
+	function cek_3(){
+		if(fx.p3.value=='l1'){
+			fx.f6.disabled=false;
+			fx.f7.disabled=true;
+			fx.f7.value='-';
+			fx.f8.disabled=false;
+		}else if (fx.p3.value=='l2') {
+			fx.f6.disabled=false;
+			fx.f7.disabled=false;
+			fx.f8.disabled=false;
+		}else if (fx.p3.value=='l3') {
+			fx.f6.disabled=false;
+			fx.f7.disabled=true;
+			fx.f7.value='-';
+			fx.f8.disabled=false;
+		}else{
+			fx.f6.disabled=true;
+			fx.f7.disabled=true;
+			fx.f8.disabled=true;
+		}
+	}
+</script>
+<script>
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                    datasets: [{
+                            label: '# of Votes',
+                            data: [12, 19, 3, 5, 2, 3],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                    }
+                }
+            });
+        </script>
 </body>
 </html>
